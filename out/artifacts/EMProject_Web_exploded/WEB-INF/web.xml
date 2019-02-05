@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>EMProject</display-name>
+	<servlet>			<!-- 验证码功能 -->
+		<servlet-name>KaptchaServlet</servlet-name>
+		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+		<init-param>	<!-- 定义是否存在有边框 -->
+			<param-name>kaptcha.border</param-name>
+			<param-value>no</param-value>
+		</init-param>
+		<init-param>	<!-- 定义边框颜色 -->
+			<param-name>kaptcha.border.color</param-name>
+			<param-value>105,179,90</param-value>
+		</init-param>
+		<init-param>	<!-- 设置字体颜色 -->
+			<param-name>kaptcha.textproducer.font.color</param-name>
+			<param-value>red</param-value>
+		</init-param>
+		<init-param>	<!-- 设置生成图片宽度 -->
+			<param-name>kaptcha.image.width</param-name>
+			<param-value>105</param-value>
+		</init-param>
+		<init-param>	<!-- 设置生成图片高度 -->
+			<param-name>kaptcha.image.height</param-name>
+			<param-value>50</param-value>
+		</init-param>
+		<init-param>	<!-- 设置验证码显示文字尺寸 -->
+			<param-name>kaptcha.textproducer.font.size</param-name>
+			<param-value>30</param-value>
+		</init-param>
+		<init-param>	<!-- 设置验证码保存到session中的属性名称 -->
+			<param-name>kaptcha.session.key</param-name>
+			<param-value>rand</param-value>
+		</init-param>
+		<init-param>	<!-- 设置字符间距 -->
+			<param-name>kaptcha.textproducer.char.space</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>	<!-- 设置生成的验证码长度 -->
+			<param-name>kaptcha.textproducer.char.length</param-name>
+			<param-value>4</param-value>
+		</init-param>
+		<init-param>	<!-- 设置使用的字体 -->
+			<param-name>kaptcha.textproducer.font.names</param-name>
+			<param-value>宋体,楷体,微软雅黑</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>KaptchaServlet</servlet-name>
+		<url-pattern>/captcha.jpg</url-pattern>
+	</servlet-mapping>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.mldn.cn/c</taglib-uri>
+			<taglib-location>/WEB-INF/c.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

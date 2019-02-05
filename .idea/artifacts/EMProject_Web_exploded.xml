@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="EMProject:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/EMProject_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="EMProject/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="EMProject" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="smartupload" />
+          <element id="library" level="project" name="kaptcha-2.3.2" />
+          <element id="library" level="project" name="mysql-connector-java-5.0.4" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

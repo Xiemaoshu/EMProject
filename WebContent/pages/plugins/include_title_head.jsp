@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String logOutUrl = "MemberLoginServlet/logout";
+%>
 <header class="main-header">
 
 	<!-- Logo -->
@@ -19,23 +22,23 @@
 				<li class="dropdown user user-menu"><a href="#"
 					class="dropdown-toggle" data-toggle="dropdown"> <img
 						src="upload/emp/nophoto.png" class="user-image" alt="User Image">
-						<span class="hidden-xs">谢茂树</span>
+						<span class="hidden-xs">${name}</span>
 				</a>
 					<ul class="dropdown-menu"> 
 						<!-- User image -->
 						<li class="user-header"><img src="upload/emp/nophoto.png"
 							class="img-circle" alt="User Image">
-							</p></li>
+							</li>
 						<!-- Menu Body -->
 						<li>
 							<div class="text-center">
-								上次登录日期：2017-10-10 19:10:20
+
 							</div>
 						</li>
 						<!-- Menu Footer-->
 						<li class="user-footer">
 							<div class="text-center">
-								<a href="#" class="btn btn-default btn-flat">系统注销</a>
+								<a href="<%=logOutUrl%>" class="btn btn-default btn-flat">系统注销</a>
 							</div>
 						</li>
 					</ul></li>

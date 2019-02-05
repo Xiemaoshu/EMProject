@@ -10,7 +10,7 @@
 					alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p>谢茂树</p>
+				<p>${name}</p>
 			</div> 
 		</div>
 		<!-- /.search form -->

@@ -225,7 +225,10 @@ public abstract class DispatcherServlet extends HttpServlet {
 	 * @return
 	 */
 	public String getPageValue(String pageKey) {
-		return this.pageResource.getString(pageKey);
+		try {
+			return this.pageResource.getString(pageKey);
+		}catch(Exception e){}
+		return this.pageResource.getString("error.page");
 	}
 	/**
 	 * 创建新的上传文件名称

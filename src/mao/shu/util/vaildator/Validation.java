@@ -18,7 +18,7 @@ public class Validation {
 	 */
 	public static Map<String,String> validate(DispatcherServlet servlet) {
 		Map<String,String> errors = new HashMap<String,String>() ;
-		/*String ruleKey = servlet.getClass().getSimpleName() + "." + servlet.getStatus() + ".rules" ;
+		String ruleKey = servlet.getClass().getSimpleName() + "." + servlet.getStatus() + ".rules" ;
 		try {
 			String rule = ResourceUtils.get("Validations", ruleKey) ;
 			if (rule != null) {	// 可以应用规则
@@ -62,7 +62,7 @@ public class Validation {
 			}
 		} catch (Exception e) {	// 出现了错误，就表示没有规则
 			e.printStackTrace();
-		}*/
+		}
 		return errors ;
 	}
 	/**

@@ -4,7 +4,6 @@ import mao.shu.em.service.back.IMemberServiceBack;
 import mao.shu.em.service.back.impl.MemberServiceBackImpl;
 import mao.shu.em.vo.Member;
 import mao.shu.util.EncryptUtil;
-import mao.shu.util.MD5Code;
 import mao.shu.util.factory.ServiceFactory;
 import mao.shu.util.servlet.DispatcherServlet;
 
@@ -17,6 +16,7 @@ public class MemberLoginServlet extends DispatcherServlet {
     public Member getMember(){
         return this.member;
     }
+
     public String login(){
         //进行加密处理
         this.member.setPassword(EncryptUtil.getPassword(this.member.getPassword()));
@@ -28,6 +28,7 @@ public class MemberLoginServlet extends DispatcherServlet {
                 super.setUrlAndMsg("index.page","login.success.msg");
                 super.setSessionAttribute("name",loginResult.get("name"));
                 super.setSessionAttribute("sflag",loginResult.get("sflag"));
+                super.setSessionAttribute("mid",this.member.getMid());
             }else{
                 super.setUrlAndMsg("login.page","login.failure.msg");
 
@@ -36,6 +37,11 @@ public class MemberLoginServlet extends DispatcherServlet {
             e.printStackTrace();
         }
             return "forward.page";
+    }
+    public String logout(){
+        super.getSession().invalidate();//使session失效
+        super.setUrlAndMsg("login.page","logout.msg");
+        return "forward.page";
     }
     @Override
     public String getDefaultColumn() {

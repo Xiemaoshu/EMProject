@@ -1,3 +1,4 @@
+<%@ taglib prefix="e" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
@@ -31,7 +32,15 @@
 							</div>
 						</div>
 						<div class="form-bottom" style="background: white;">
-							<span class="h5">程序出错了，请返回首页，与管理员联系！</span>
+							<span
+									class="h5">程序出错了，请返回首页，与管理员联系！
+							改程序出现了如下的错误:
+								<ul>
+									<e:forEach items="${errors}" var="a">
+										<li>${a.key}:${a.value}</li>
+									</e:forEach>
+								</ul>
+							</span>
 						</div>
 					</div>
 				</div>

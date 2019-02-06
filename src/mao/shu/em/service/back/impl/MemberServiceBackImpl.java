@@ -6,6 +6,7 @@ import mao.shu.em.dao.IRoleDAO;
 import mao.shu.em.dao.impl.ActionDAOImpl;
 import mao.shu.em.dao.impl.MemberDAO;
 import mao.shu.em.dao.impl.RoleDAOImpl;
+import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IMemberServiceBack;
 import mao.shu.em.vo.Member;
 import mao.shu.util.factory.DAOFactory;
@@ -13,7 +14,7 @@ import mao.shu.util.factory.DAOFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MemberServiceBackImpl implements IMemberServiceBack {
+public class MemberServiceBackImpl extends AbstractService implements IMemberServiceBack {
 
     @Override
     public Map<String, Object> login(Member vo) throws Exception {

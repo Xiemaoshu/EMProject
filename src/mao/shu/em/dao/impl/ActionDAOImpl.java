@@ -4,6 +4,7 @@ import mao.shu.em.dao.IActionDAO;
 import mao.shu.em.vo.Action;
 import mao.shu.util.AbstractDAO;
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -28,6 +29,23 @@ public class ActionDAOImpl extends AbstractDAO implements IActionDAO {
         }
         return action_flags;
 
+    }
+
+    @Override
+    public boolean exists(String mid,String flag) throws SQLException {
+        String sql = "SELECT flag FROM action WHERE actid IN " +
+                " (SELECT actid FROM role_action WHERE rid IN " +
+                " (SELECT rid FROM member_role WHERE mid=?) " +
+                " )AND flag=? ";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setString(1,mid);
+        super.pstmt.setString(2,flag);
+        ResultSet resultSet = super.pstmt.executeQuery();
+        if(resultSet.next()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

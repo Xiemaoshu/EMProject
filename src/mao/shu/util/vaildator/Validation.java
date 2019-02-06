@@ -57,6 +57,20 @@ public class Validation {
 							}
 							break ;
 						}
+						default : {//其它类型,表示验证的是验证码.
+							if(!Validation.validateEmpty(val)){
+								errors.put(temp[0],servlet.getMessageValue("validation.string.msg"));
+							}else{//如果此时有验证码
+								//得到Servlet生成的验证码
+								String rand = (String) servlet.getSession().getAttribute("rand");
+								//和用户提交的验证码内容进行判断
+								if(rand==null){
+									errors.put(temp[0],servlet.getMessageValue("validation.rand.msg"));
+								}else if(!rand.equalsIgnoreCase(val)){
+									errors.put(temp[0],servlet.getMessageValue("validation.rand.msg"));
+								}
+							}
+						}
 					}
 				}
 			}

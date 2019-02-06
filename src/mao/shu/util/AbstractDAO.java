@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 
 import mao.shu.util.dbc.DatabaseConnection;
 
-public class AbstractDAO {
+public abstract class AbstractDAO {
 	protected Connection conn ;
 	protected PreparedStatement pstmt ;
 	public AbstractDAO() {

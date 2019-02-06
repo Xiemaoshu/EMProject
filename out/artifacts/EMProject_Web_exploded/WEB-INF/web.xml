@@ -17,7 +17,7 @@
 		</init-param>
 		<init-param>	<!-- 设置字体颜色 -->
 			<param-name>kaptcha.textproducer.font.color</param-name>
-			<param-value>red</param-value>
+			<param-value>green</param-value>
 		</init-param>
 		<init-param>	<!-- 设置生成图片宽度 -->
 			<param-name>kaptcha.image.width</param-name>
@@ -29,7 +29,7 @@
 		</init-param>
 		<init-param>	<!-- 设置验证码显示文字尺寸 -->
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>30</param-value>
+			<param-value>40</param-value>
 		</init-param>
 		<init-param>	<!-- 设置验证码保存到session中的属性名称 -->
 			<param-name>kaptcha.session.key</param-name>
@@ -37,7 +37,7 @@
 		</init-param>
 		<init-param>	<!-- 设置字符间距 -->
 			<param-name>kaptcha.textproducer.char.space</param-name>
-			<param-value>2</param-value>
+			<param-value>3</param-value>
 		</init-param>
 		<init-param>	<!-- 设置生成的验证码长度 -->
 			<param-name>kaptcha.textproducer.char.length</param-name>
@@ -54,8 +54,12 @@
 	</servlet-mapping>
 	<jsp-config>
 		<taglib>
-			<taglib-uri>http://www.mldn.cn/c</taglib-uri>
+			<taglib-uri>http://www.mao.su/c</taglib-uri>
 			<taglib-location>/WEB-INF/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.mao.su/fn</taglib-uri>
+			<taglib-location>/WEB-INF/fn.tld</taglib-location>
 		</taglib>
 	</jsp-config>
 	<welcome-file-list>

@@ -1,7 +1,11 @@
 package mao.shu.em.service.back.impl;
 
+import mao.shu.em.dao.IActionDAO;
 import mao.shu.em.dao.IMemberDAO;
+import mao.shu.em.dao.IRoleDAO;
+import mao.shu.em.dao.impl.ActionDAOImpl;
 import mao.shu.em.dao.impl.MemberDAO;
+import mao.shu.em.dao.impl.RoleDAOImpl;
 import mao.shu.em.service.back.IMemberServiceBack;
 import mao.shu.em.vo.Member;
 import mao.shu.util.factory.DAOFactory;
@@ -18,9 +22,13 @@ public class MemberServiceBackImpl implements IMemberServiceBack {
         Member ckVO = memberDAO.findById(vo.getMid());
         if(ckVO!= null) {
             if (ckVO.getPassword().equals(vo.getPassword())) {
+                IRoleDAO roleDAO = DAOFactory.getInstance(RoleDAOImpl.class);
+                IActionDAO actionDAO = DAOFactory.getInstance(ActionDAOImpl.class);
                 resultMap.put("flag", true);//保存用户登录结果
                 resultMap.put("name", ckVO.getName());//保存用户的真实姓名
                 resultMap.put("sflag", ckVO.getSflag());//保存用户的超级管理员标记
+                resultMap.put("allRoles",roleDAO.findAllByMember(vo.getMid()));
+                resultMap.put("allActions",actionDAO.findAllByMember(vo.getMid()));
 
             } else {
                 resultMap.put("flag", false);

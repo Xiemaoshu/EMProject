@@ -130,6 +130,8 @@ INSERT INTO member(mid,password,name,sflag) VALUES ('admin','3E585791E7C446317AF
 INSERT INTO member(mid,password,name,sflag) VALUES ('mermaid','3E585791E7C446317AF238314843DDEB','老李',0) ;
 -- mldn / java
 INSERT INTO member(mid,password,name,sflag) VALUES ('mldn','08FD48BA8B67F026CE01E4DD15BF717A','隔壁老王',0) ;
+-- xiemaoshu / 123
+INSERT INTO member(mid,password,name,sflag) VALUES ('xiemaoshu','D0AEA5478F9FA4799DD2AE2B9F99A15E','谢茂树',1) ;
 
 -- 5、管理员与角色权限
 INSERT INTO member_role(mid,rid) VALUES ('admin',1) ;
@@ -138,6 +140,8 @@ INSERT INTO member_role(mid,rid) VALUES ('mermaid',2) ;
 INSERT INTO member_role(mid,rid) VALUES ('mermaid',2) ;
 INSERT INTO member_role(mid,rid) VALUES ('mldn',3) ;
 INSERT INTO member_role(mid,rid) VALUES ('mldn',3) ;
+INSERT INTO member_role(mid,rid) VALUES ('xiemaoshu',1) ;
+INSERT INTO member_role(mid,rid) VALUES ('xiemaoshu',2) ;
 -- 6、部门表数据
 INSERT INTO dept(dname,maxnum) VALUES ('财务部',3) ;
 INSERT INTO dept(dname,maxnum) VALUES ('销售部',20) ;

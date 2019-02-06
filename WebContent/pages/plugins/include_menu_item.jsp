@@ -17,23 +17,33 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header"><i class="fa fa-slack"></i> 企业人事管理系统</li>
-			<li class="${param.role=='member' ? 'active' : ''} treeview"><a href="<%=basePath%>pages/index.jsp"> <i
+			<c:if test="${fn:contains(allRoles,'member' )}">
+			<li class="${param.role=='member' ? 'active' : ''} treeview">
+				<a href="<%=basePath%>pages/index.jsp"> <i
 					class="fa fa-folder-open"></i> <span>权限管理</span> <i
 					class="fa fa-angle-left pull-right"></i>
-			</a>
+				</a>
 				<ul class="treeview-menu"> 
 					<li class="${param.action=='member:add' ? 'active' : ''}"><a href="pages/back/member/member_add.jsp"><i class="fa fa-circle-o"></i>
 							增加管理员</a></li>
 					<li class="${param.action=='member:list' ? 'active' : ''}"><a href="pages/back/member/member_list.jsp"><i class="fa fa-circle-o"></i>
 							管理员列表</a></li>
-				</ul></li>
-			<li class="${param.role=='admin' || param.role=='dept' ? 'active' : ''} treeview"><a href="<%=basePath%>pages/index.jsp"> <i class="fa  fa-folder-open"></i>
+				</ul>
+			</li>
+			</c:if>
+			<c:if test="${fn:contains(allRoles,'dept' )}">
+			<li class="${param.role=='admin' || param.role=='dept' ? 'active' : ''} treeview">
+				<a href="<%=basePath%>pages/index.jsp"> <i class="fa  fa-folder-open"></i>
 					<span>部门管理</span> <i class="fa fa-angle-left pull-right"></i>
-			</a>
+				</a>
 				<ul class="treeview-menu">
-					<li class="${param.action=='dept:list' ? 'active' : ''}"><a href="pages/back/dept/dept_list.jsp"><i
-							class="fa fa-circle-o"></i> 部门列表</a></li>
-				</ul></li>
+					<li class="${param.action=='dept:list' ? 'active' : ''}">
+						<a href="pages/back/dept/dept_list.jsp"><i class="fa fa-circle-o"></i> 部门列表</a>
+					</li>
+				</ul>
+			</li>
+			</c:if>
+			<c:if test="${fn:contains(allRoles,'emp' )}">
 			<li class="${param.role=='emp' ? 'active' : ''} treeview"><a href="<%=basePath%>pages/index.jsp"> <i class="fa  fa-folder-open"></i>
 					<span>雇员管理</span> <i class="fa fa-angle-left pull-right"></i>
 			</a>
@@ -43,6 +53,7 @@
 					<li class="${param.action=='emp:list' ? 'active' : ''}"><a href="pages/back/emp/emp_list.jsp"><i
 							class="fa fa-circle-o"></i> 雇员列表</a></li>
 				</ul></li>
+			</c:if>
 		</ul>
 	</section>
 	<!-- /.sidebar -->

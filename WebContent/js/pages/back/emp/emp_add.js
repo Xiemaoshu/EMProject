@@ -70,7 +70,7 @@ $(function() {
 					}
 				}*/
 			} , 
-			"emp.photo" : {
+			"photo" : {
 				extension : "jpg,gif"
 			} , 
 			"emp.comm" : {

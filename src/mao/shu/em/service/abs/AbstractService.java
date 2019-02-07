@@ -2,6 +2,7 @@ package mao.shu.em.service.abs;
 
 import mao.shu.em.dao.IActionDAO;
 import mao.shu.em.dao.ILevelDAO;
+import mao.shu.em.dao.impl.ActionDAOImpl;
 import mao.shu.em.dao.impl.LevelDAOImpl;
 import mao.shu.util.factory.DAOFactory;
 
@@ -14,7 +15,7 @@ public abstract class AbstractService {
      * @throws Exception
      */
     public boolean auth(String mid,String actionFlag)throws Exception{
-        IActionDAO actionDAO = DAOFactory.getInstance(IActionDAO.class);
+        IActionDAO actionDAO = DAOFactory.getInstance(ActionDAOImpl.class);
         return actionDAO.exists(mid,actionFlag);
     }
 }

@@ -29,8 +29,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="library" name="jsp-api" level="project" />
-    <orderEntry type="library" name="smartupload" level="project" />
     <orderEntry type="library" name="kaptcha-2.3.2" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.0.4" level="project" />
+    <orderEntry type="library" name="smartupload" level="project" />
   </component>
 </module>

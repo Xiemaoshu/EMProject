@@ -53,7 +53,7 @@ public class DeptDAOImpl extends AbstractDAO implements IDeptDAO {
 
     @Override
     public Dept findById(Integer id) throws SQLException {
-       String sql = "SELECT deptno,dname,maxnum,currnum WHERE deptno=?";
+       String sql = "SELECT deptno,dname,maxnum,currnum FROM dept WHERE deptno=?";
        super.pstmt = super.conn.prepareStatement(sql);
        super.pstmt.setInt(1,id);
        ResultSet resultSet = super.pstmt.executeQuery();

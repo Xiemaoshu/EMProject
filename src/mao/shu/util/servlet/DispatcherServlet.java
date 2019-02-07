@@ -6,12 +6,7 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +18,7 @@ import com.jspsmart.upload.SmartUpload;
 
 import com.sun.deploy.net.HttpRequest;
 import mao.shu.util.bean.BeanValueUtil;
+import mao.shu.util.img.ImageScale;
 import mao.shu.util.split.SplitPageUtils;
 import mao.shu.util.vaildator.Validation;
 
@@ -76,6 +72,20 @@ public abstract class DispatcherServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher(this.getPageValue(urlPage)).forward(request, response);
+	}
+
+	/**
+	 * 向session属性中的 errors 错误集合中添加错误提示信息
+	 * errors集合中添加错误信息
+	 * @param key 错误的属性名称
+	 * @param value Message.properties消息提示文件中的关键字
+	 */
+	public void setErrors(String key,String value){
+		Map<String,String> error = (Map<String,String>)this.getSession().getAttribute("errors");
+		if(error==null){
+			error = new HashMap<String,String>();
+		}
+		error.put(key,value);
 	}
 
 	/**
@@ -256,6 +266,18 @@ public abstract class DispatcherServlet extends HttpServlet {
 		} catch (Exception e) {
 			return false ;
 		} 
+	}
+	public void saveScale(String fileName){
+		String srcPath = null;
+		String savePath = null;
+		if(this.getUploadDir() == null || "".equals(this.getUploadDir())){
+			savePath = super.getServletContext().getRealPath("/")+"sm-"+fileName;
+			srcPath = super.getServletContext().getRealPath("/")+fileName;
+		}else{
+			savePath = super.getServletContext().getRealPath("/")+this.getUploadDir()+"sm-"+fileName;
+			srcPath = super.getServletContext().getRealPath("/")+this.getUploadDir()+fileName;
+		}
+		ImageScale.scale(savePath,srcPath);
 	}
 	/**
 	 * 判断是否有上传文件

@@ -58,6 +58,7 @@ public class LevelDAOImpl extends AbstractDAO implements ILevelDAO {
             vo.setHisal(resultSet.getDouble(3));
             vo.setTitle(resultSet.getString(4));
             vo.setFlag(resultSet.getString(5));
+            allLevels.add(vo);
         }
         return allLevels;
     }

@@ -5,10 +5,10 @@
 <head>
 <base href="<%=basePath%>">
 <%
-	String addEmpUrl = basePath + "pages/back/emp/EmpServlet/add" ;
+	String addEmpUrl = basePath + "pages/back/emp/EmpServletBack/add" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="js/pages/back/emp/emp_add.js"></script>
+<script type="text/javascript" src="/js/pages/back/emp/emp_add.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -31,22 +31,22 @@
 									<strong><span class="glyphicon glyphicon-user"></span>&nbsp;雇员入职</strong>
 								</div>
 								<div class="panel-body" style="height : 95%;">
-									<form action="<%=addEmpUrl%>" id="myform" method="post" class="form-horizontal">
-										<div class="form-group" id="emp.nameDiv">
-											<label class="col-md-2 control-label" for="emp.name">雇员姓名：</label>
+									<form action="<%=addEmpUrl%>" id="myform" method="post" class="form-horizontal" enctype="multipart/form-data">
+										<div class="form-group" id="emp.enameDiv">
+											<label class="col-md-2 control-label" for="emp.ename">雇员姓名：</label>
 											<div class="col-md-5">
-												<input type="text" name="emp.name" id="emp.name" class="form-control input-sm" placeholder="请输入雇员真实姓名">
+												<input type="text" name="emp.ename" id="emp.ename" class="form-control input-sm" placeholder="请输入雇员真实姓名">
 											</div>
-											<div class="col-md-4" id="emp.nameMsg">*</div>
+											<div class="col-md-4" id="emp.enameMsg">*</div>
 										</div>
 										<div class="form-group" id="emp.deptnoDiv">
 											<label class="col-md-2 control-label" for="emp.deptno">所在部门：</label>
 											<div class="col-md-5">
 												<select id="emp.deptno" name="emp.deptno" class="form-control">
 													<option value="">====== 请选择所在部门 ======</option>
-													<option value="1">销售部</option>
-													<option value="2">研发部</option>
-													<option value="3">后勤部</option>
+													<c:forEach items="${allUnderDepts}" var="dept">
+													<option value="${dept.deptno}">${dept.dname}(剩余人数:${dept.maxnum-dept.currnum})</option>
+													</c:forEach>
 												</select>
 											</div> 
 											<div class="col-md-4" id="emp.deptnoMsg">*</div>
@@ -63,10 +63,9 @@
 											<div class="col-md-5">
 												<select id="emp.lid" name="emp.lid" class="form-control">
 													<option value="">====== 请选择职位等级 ======</option>
-													<option value="1">实习生</option>
-													<option value="2">普通员工</option>
-													<option value="3">小组组长</option>
-													<option value="4">部门经理</option>
+													<c:forEach items="${allLevels}" var="level">
+													<option value="${level.lid}">${level.title}(工资范围:${level.losal}---${level.hisal})</option>
+													</c:forEach>
 												</select>
 											</div> 
 											<div class="col-md-4" id="emp.lidMsg">*</div>
@@ -85,12 +84,12 @@
 											</div>
 											<div class="col-md-4" id="emp.commMsg"></div>
 										</div>
-										<div class="form-group" id="emp.photoDiv">
-											<label class="col-md-2 control-label" for="emp.comm">员工照片：</label>
+										<div class="form-group" id="photoDiv">
+											<label class="col-md-2 control-label" for="photo">员工照片：</label>
 											<div class="col-md-5">
-												<input type="file" name="emp.photo" id="emp.photo" class="form-control input-sm" placeholder="请上传员工照片">
+												<input type="file" name="photo" id="photo" class="form-control input-sm" placeholder="请上传员工照片">
 											</div>
-											<div class="col-md-4" id="emp.photoMsg"></div>
+											<div class="col-md-4" id="photoMsg"></div>
 										</div>
 										<div class="form-group" id="member.noteDiv"> 
 											<label class="col-md-2 control-label" for="note">员工简介：</label>

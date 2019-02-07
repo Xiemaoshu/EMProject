@@ -57,6 +57,9 @@ public class Validation {
 							}
 							break ;
 						}
+						case "temp" :{
+							break;
+						}
 						default : {//其它类型,表示验证的是验证码.
 							if(!Validation.validateEmpty(val)){
 								errors.put(temp[0],servlet.getMessageValue("validation.string.msg"));

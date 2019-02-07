@@ -55,7 +55,7 @@ public class BeanValueUtil {
 					attMethod.invoke(currentObject, this.convertValue(attField.getType().getSimpleName())) ;
 				}
 			} catch (Exception e) {
-				// e.printStackTrace();
+				 e.printStackTrace();
 			}
 		}
 	}

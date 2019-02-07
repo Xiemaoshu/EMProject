@@ -48,11 +48,12 @@
 					<span>雇员管理</span> <i class="fa fa-angle-left pull-right"></i>
 			</a>
 				<ul class="treeview-menu">
-					<li class="${param.action=='emp:add' ? 'active' : ''}"><a href="pages/back/emp/emp_add.jsp"><i
+					<li class="${param.action=='emp:add' ? 'active' : ''}"><a href="pages/back/emp/EmpServletBack/addPre"><i
 							class="fa fa-circle-o"></i> 雇员入职</a></li>
-					<li class="${param.action=='emp:list' ? 'active' : ''}"><a href="pages/back/emp/emp_list.jsp"><i
+					<li class="${param.action=='emp:list' ? 'active' : ''}"><a href="pages/back/emp/EmpServletBack/list"><i
 							class="fa fa-circle-o"></i> 雇员列表</a></li>
-				</ul></li>
+				</ul>
+			</li>
 			</c:if>
 		</ul>
 	</section>

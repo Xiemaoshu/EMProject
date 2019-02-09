@@ -9,7 +9,7 @@
 	String editEmpUrl = basePath + "pages/back/emp/emp_edit.jsp" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="js/pages/back/emp/emp_list.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/pages/back/emp/emp_list.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -36,37 +36,30 @@
 									<table class="table table-hover">
 										<tr>
 											<th width="5%" class="text-center"><input type="checkbox" id="selall"></th>
-											<th width="15%" class="text-center">姓名</th> 
+											<th width="7%" class="text-center">头像</th>
+											<th width="8%" class="text-center">姓名</th>
 											<th width="15%" class="text-center">级别</th>
 											<th width="15%" class="text-center">职位</th>
-											<th width="10%" class="text-center">部门</th>
+											<th width="10%" class="text-center">部门编号</th>
 											<th width="10%" class="text-center">基本工资</th>
 											<th width="10%" class="text-center">佣金</th>
 											<th width="15%" class="text-center">雇佣日期</th>
 											<th width="10%" class="text-center">操作</th>
 										</tr>
+										<c:forEach items="${allEmps}" var="emp">
 										<tr>
-											<td class="text-center"><input type="checkbox" id="empno" name="empno" value="1"></td>
-											<td class="text-center">SMITH</td>
-											<td class="text-center">实习生（T1）</td>
-											<td class="text-center">网络管理</td>
-											<td class="text-center">开发部</td>
-											<td class="text-center">￥1700/月</td>
-											<td class="text-center">￥0/月</td>
-											<td class="text-center">2019-10-10</td>
+											<td class="text-center"><input type="checkbox" id="empno" name="empno" value="${emp.empno}"></td>
+											<td class="text-center"><img src="<%=basePath%>upload/emp/sm-${emp.photo}" style="height:40px;width:40px" /></td>
+											<td class="text-center">${emp.ename}</td>
+											<td class="text-center">${emp.lid}</td>
+											<td class="text-center">${emp.job}</td>
+											<td class="text-center">${emp.deptno}</td>
+											<td class="text-center">￥${emp.sal}/月</td>
+											<td class="text-center">￥${emp.comm}/月</td>
+											<td class="text-center">${emp.hiredate}</td>
 											<td class="text-center"><a href="<%=editEmpUrl%>" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;编辑</a></td>
 										</tr>
-										<tr>
-											<td class="text-center"><input type="checkbox" id="empno" name="empno" value="1"></td>
-											<td class="text-center">SMITH</td>
-											<td class="text-center">实习生（T1）</td>
-											<td class="text-center">网络管理</td>
-											<td class="text-center">开发部</td>
-											<td class="text-center">￥1700/月</td>
-											<td class="text-center">￥0/月</td>
-											<td class="text-center">2019-10-10</td>
-											<td class="text-center"><a href="<%=editEmpUrl%>" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;编辑</a></td>
-										</tr>
+										</c:forEach>
 									</table>
 									<a href="<%=addEmpUrl%>" id="inBtn" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;雇员入职</a>
 									<button id="outBtn" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;雇员离职</button>

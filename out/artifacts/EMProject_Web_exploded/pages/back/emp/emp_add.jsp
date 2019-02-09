@@ -8,7 +8,7 @@
 	String addEmpUrl = basePath + "pages/back/emp/EmpServletBack/add" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="/js/pages/back/emp/emp_add.js"></script>
+<script type="text/javascript" src="js/pages/back/emp/emp_add.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -39,6 +39,7 @@
 											</div>
 											<div class="col-md-4" id="emp.enameMsg">*</div>
 										</div>
+
 										<div class="form-group" id="emp.deptnoDiv">
 											<label class="col-md-2 control-label" for="emp.deptno">所在部门：</label>
 											<div class="col-md-5">

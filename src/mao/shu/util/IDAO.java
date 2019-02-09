@@ -79,4 +79,11 @@ public interface IDAO<K,V> {
 	 * @throws SQLException 数据库未连接，或者数据库操作错误
 	 */
 	public Integer getAllCount(String column, String keyWord) throws SQLException ;
+
+	/**
+	 * 取得自动增加列的最后一个添加的id信息,MySQL数据库使用的是 LASG_INSERT_ID() 函数取得
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer getLastId()throws SQLException;
 }

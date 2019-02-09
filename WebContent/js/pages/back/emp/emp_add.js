@@ -46,7 +46,21 @@ $(function() {
 				required : true 
 			} ,
 			"emp.deptno" : {
-				required : true 
+				required : true,
+				number : true,
+				remote : {
+					url :  "pages/back/emp/EmpServletBack/checkDept" ,
+					type : "post",
+					dataType : "text",
+					data : {
+						deptno : function(){
+							return $("#emp\\.deptno").val();
+						}
+					},
+					dataFilter : function(data,type){
+						return data.trim() == "true";
+					}
+				}
 			} ,
 			"emp.lid" : {
 				required : true 
@@ -56,19 +70,23 @@ $(function() {
 			} ,
 			"emp.sal" : {
 				required : true ,
-				number : true 
-				/*remote : {	// 需要进行远程交互验证
-					url : "CodeServlet" ,
+				number : true,
+				remote : {	// 需要进行远程交互验证
+					url : "pages/back/emp/EmpServletBack/chekSal" ,
 					type : "post" ,
 					dataType : "text" ,
 					data : {
-						code : function () {
-							return $("#code").val() ; 
+						sal : function () {
+							return $("#emp\\.sal").val() ;
+						},
+						lid : function () {
+							return $("#emp\\.lid").val();
 						}
 					} ,
 					dataFilter : function(data,type) {
+						return data.trim()=="true";
 					}
-				}*/
+				}
 			} , 
 			"photo" : {
 				extension : "jpg,gif"

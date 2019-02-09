@@ -7,7 +7,7 @@
 <%--
 <jsp:include page="/pages/plugins/include_splitpage_search.jsp"/>
 --%>
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/bootstrap/css/bootstrap.css">
 <%
 	request.setCharacterEncoding("UTF-8") ;
 %>
@@ -32,7 +32,9 @@
 		allRecorders = Integer.parseInt(request.getAttribute("allRecorders").toString()) ;
 	} catch (Exception e) {}
 	column = (String) request.getAttribute("column") ;
+	column = column==null?"":column;
 	keyWord = (String) request.getAttribute("keyWord") ;
+	keyWord = keyWord==null?"":keyWord;
 %>
 <%
 	// 计算总页数
@@ -54,8 +56,8 @@
 			}
 		} else {
 %>
-			<li><a href="<%=url%>?cp=<%=currentPage - 1%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>">上一页</a></li>
-			<li class="<%=currentPage == 1 ? "active" : ""%>"><a href="<%=url%>?cp=1&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>">1</a></li>
+			<li><a href="<%=url%>?cp=<%=currentPage - 1%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}">上一页</a></li>
+			<li class="<%=currentPage == 1 ? "active" : ""%>"><a href="<%=url%>?cp=1&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}">1</a></li>
 <%
 		}
 %>
@@ -65,7 +67,7 @@
 		if (currentPage <= seed * 2) {	// 先显示前面的数据
 			for (int x = 2 ; x < currentPage + seed ; x ++) {
 %>
-				<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>"><%=x%></a></li>
+				<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}"><%=x%></a></li>
 <%
 			}
 			if ((currentPage + seed * 2) <= pageSize) {
@@ -82,7 +84,7 @@
 			for (int x = startPage ; x <= endPage ; x ++) {
 				if (x < pageSize) {
 %>
-					<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>"><%=x%></a></li>
+					<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}"><%=x%></a></li>
 <%
 				}
 			}
@@ -95,7 +97,7 @@
 	} else {	// 如果没有超过6页，那么就全部显示即可
 		for (int x = 2 ; x < pageSize ; x ++) {	// 实现页数的循环输出
 %>
-			<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>"><%=x%></a></li>
+			<li class="<%=currentPage == x ? "active" : ""%>"><a href="<%=url%>?cp=<%=x%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}"><%=x%></a></li>
 <%
 		}
 	}
@@ -108,8 +110,8 @@
 <%
 		} else {
 %>			
-			<li class="<%=currentPage == pageSize ? "active" : ""%>"><a href="<%=url%>?cp=<%=pageSize%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>"><%=pageSize%></a></li>
-			<li><a href="<%=url%>?cp=<%=currentPage + 1%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>">下一页</a></li>
+			<li class="<%=currentPage == pageSize ? "active" : ""%>"><a href="<%=url%>?cp=<%=pageSize%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}"><%=pageSize%></a></li>
+			<li><a href="<%=url%>?cp=<%=currentPage + 1%>&ls=<%=lineSize%>&kw=<%=keyWord%>&col=<%=column%>&${parameName}=${parameValue}">下一页</a></li>
 <%
 		}
 %>

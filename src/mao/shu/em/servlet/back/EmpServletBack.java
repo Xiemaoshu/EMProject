@@ -1,11 +1,19 @@
 package mao.shu.em.servlet.back;
 
 
+import mao.shu.em.service.back.IDeptServiceBack;
 import mao.shu.em.service.back.IEmpServiceBack;
+import mao.shu.em.service.back.ILevelServiceBack;
+import mao.shu.em.service.back.impl.DeptServiceBackImpl;
 import mao.shu.em.service.back.impl.EmpServiceBackImpl;
+import mao.shu.em.service.back.impl.LevelServiceBackImpl;
 import mao.shu.em.servlet.abs.EMServlet;
+import mao.shu.em.vo.Dept;
+import mao.shu.em.vo.Elog;
 import mao.shu.em.vo.Emp;
+import mao.shu.em.vo.Level;
 import mao.shu.util.factory.ServiceFactory;
+import mao.shu.util.split.SplitPageUtils;
 
 import javax.servlet.annotation.WebServlet;
 import java.util.Map;
@@ -42,7 +50,9 @@ public class EmpServletBack extends EMServlet {
                 }
                 this.emp.setMid(super.getMid());//设置添加该雇员的操作用户
                 IEmpServiceBack empServiceBack = ServiceFactory.getInstance(EmpServiceBackImpl.class);
-                if(empServiceBack.add(this.emp)){
+                Elog elog = new Elog();
+                elog.setNote(super.getStringParameter("note"));
+                if(empServiceBack.add(this.emp,elog)){
                     super.setUrlAndMsg("emp.add.servlet","vo.add.success.msg");
                     if(super.isUploadFile()){
                         super.saveUploadFile(this.emp.getPhoto());//保存原图片
@@ -63,9 +73,67 @@ public class EmpServletBack extends EMServlet {
         }
 
     }
+
+    /**
+     * 该方法用于验证新增的雇员要添加的部门是否有剩余人数,该方法主要提供给页面进行ajax异步验证处理
+     */
+    public void checkDept(){
+        Integer deptno = super.getIntParameter("deptno");
+        IDeptServiceBack deptServiceBack = ServiceFactory.getInstance(DeptServiceBackImpl.class);
+        try {
+            Dept dept = deptServiceBack.get(deptno);
+           super.printData(dept.getCurrnum()<dept.getMaxnum());
+
+        } catch (Exception e) {
+            super.printData("false");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 该方法用户对用户填写的新增雇员的工资是否在指定的工资等级范围之内做一个判断,
+     * 该判断用于页面验证的ajax的异步判断
+     */
+    public void chekSal(){
+        Double sal = super.getDoubleParameter("sal");
+        Integer lid = super.getIntParameter("lid");
+        ILevelServiceBack levelServiceBack = ServiceFactory.getInstance(LevelServiceBackImpl.class);
+        try {
+            Level level = levelServiceBack.get(lid);
+            super.printData(level.getHisal()>= sal && level.getLosal()<= sal);
+
+        } catch (Exception e) {
+            super.printData("false");
+            e.printStackTrace();
+        }
+    }
+
+    public String list(){
+        String urlkey = "emp.list.servlet";//保存执行分页servlet的地址
+        //判断用户查询的是在职雇员还是离职雇员的标记
+        Integer flag = super.getIntParameter("flag");
+        //进行分页参数的获取
+        SplitPageUtils splitPageUtils = new SplitPageUtils(super.request);
+        Integer currentPage = splitPageUtils.getCurrentPage();
+        Integer linesize = splitPageUtils.getLineSize();
+        String keyword = splitPageUtils.getKeyWord();
+        String column = splitPageUtils.getColumn();
+        IEmpServiceBack empServiceBack = ServiceFactory.getInstance(EmpServiceBackImpl.class);
+        try {
+            Map<String,Object> splitResult = empServiceBack.listByFlag(super.getMid(),flag,currentPage,linesize,column,keyword);
+            //将分页的数据传输到JSP中
+           request.setAttribute("allEmps",splitResult.get("allEmps"));
+           //分页组件传递分页所需的参数,实现切换页码
+           super.setSplitPage(urlkey,(Integer) splitResult.get("allCount"),splitPageUtils);
+           super.setSplitParam("flag",flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "emp.list.page";
+    }
     @Override
     public String getDefaultColumn() {
-        return null;
+        return "雇员姓名:ename|雇员职位:job";
     }
 
     @Override

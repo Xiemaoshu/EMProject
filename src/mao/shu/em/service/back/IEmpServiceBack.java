@@ -1,7 +1,9 @@
 package mao.shu.em.service.back;
 
+import mao.shu.em.vo.Elog;
 import mao.shu.em.vo.Emp;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IEmpServiceBack {
@@ -23,8 +25,25 @@ public interface IEmpServiceBack {
      * 5. 保存成功之后,对所在的部门的当前人数进行+1操作<br/>
      * 6. 要进行相关日志的保存操作
      * @param vo 要添加的雇员信息,以及包含添加该雇员的用户的mid
+     * @param elog 增加新雇员的同时增加一个新的雇员日志信息
      * @return 成功返回true,失败返回false
      * @throws Exception
      */
-    public boolean add(Emp vo)throws Exception;
+    public boolean add(Emp vo, Elog elog)throws Exception;
+
+    /**
+     * 该方法进行雇员emp表的分页操作,需要进行以下操作
+     * 1. 进行权限验证,判断操作用户是否有 emp:list 权限
+     * @param flag 用户在职情况,flag=1 表示列出所有在职的人员,flag=0 表示列出所有离职人员
+     * @param currentPage 当前所在页
+     * @param mid 当前操作用户id
+     * @param lineSize 每页显示个数
+     * @param column 模糊查询列
+     * @param keyword 模糊查询关键字 如果没有column和keyword 表示默认查询所有数据
+     * @return 返回以下的内容
+     *  1. allEmps = 所有雇员集合
+     *  2. allCount = 所有雇员人数
+     * @throws Exception
+     */
+    public Map<String,Object> listByFlag(String mid,Integer flag,Integer currentPage,Integer lineSize,String column,String keyword)throws Exception;
 }

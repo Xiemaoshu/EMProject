@@ -59,7 +59,8 @@ public abstract class DispatcherServlet extends HttpServlet {
 					this.parameterHandle(); // 处理所有的提交参数
 					try {
 						Method statusMethod = this.getClass().getMethod(status);
-						urlPage = statusMethod.invoke(this).toString();
+						urlPage = (String) statusMethod.invoke(this);
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -69,9 +70,15 @@ public abstract class DispatcherServlet extends HttpServlet {
 				}
 			}
 		} catch (Exception e) {
+			urlPage = "error.page";
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher(this.getPageValue(urlPage)).forward(request, response);
+		//当页面进行ajax异步验证的时候,没有任何返回值,为了防止异步验证跳转到error.page页面中
+		//所以要排除掉空请求的清空
+		if(!(urlPage==null || "".equals(urlPage))) {
+			request.getRequestDispatcher(this.getPageValue(urlPage)).forward(request, response);
+		}
+
 	}
 
 	/**
@@ -321,6 +328,24 @@ public abstract class DispatcherServlet extends HttpServlet {
 		this.request.setAttribute("column", spu.getColumn()); 
 		this.request.setAttribute("keyWord", spu.getKeyWord());  
 		this.request.setAttribute("columnData", this.getDefaultColumn());  
+	}
+
+	/**
+	 * 设置分页所需的其他参数,
+	 * @param key
+	 * @param value
+	 */
+	public void setSplitParam(String key,Object value){
+		this.request.setAttribute("parameName",key);
+		this.request.setAttribute("parameValue",value);
+	}
+
+	public void printData(Object value){
+		try {
+			this.response.getWriter().print(value);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 设置所有分页的候选列，格式安按照“标签:列名称|标签:列名称|”

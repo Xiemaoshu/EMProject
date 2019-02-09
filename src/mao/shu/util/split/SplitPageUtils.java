@@ -15,7 +15,7 @@ public class SplitPageUtils {
 		return currentPage ;
 	}
 	public Integer getLineSize() {
-		int lineSize = 10 ; 
+		int lineSize = 5 ;
 		try {
 			lineSize = Integer.parseInt(this.request.getParameter("ls")) ;
 		} catch (Exception e) {}

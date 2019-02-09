@@ -5,7 +5,14 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	String loginUrl = basePath + "" ;
+	String indexUrl = basePath + "login.jsp" ;
+	if(session.getAttribute("mid")!= null){
+		//方式一直接跳转
+		/*pageContext.forward("/pages/index.jsp");*/
+
+		//方式二,修改超链接路径,有用户决定是否跳转
+		indexUrl = basePath+"pages/index.jsp";
+	}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -33,7 +40,7 @@
 						</div>
 						<div class="form-bottom" style="background: white;">
 							<span
-									class="h5">程序出错了，请返回<a href="<%=basePath%>login.jsp">首页</a>，与管理员联系！
+									class="h5">程序出错了，请返回<a href="<%=indexUrl%>">首页</a>，与管理员联系！
 							改程序出现了如下的错误:
 								<ul>
 									<e:forEach items="${errors}" var="a">

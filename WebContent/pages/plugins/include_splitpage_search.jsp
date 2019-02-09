@@ -7,7 +7,7 @@
 <%
 	request.setCharacterEncoding("UTF-8") ;
 %>
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<%=basePath%>bootstrap/css/bootstrap.css">
 <%--
 <jsp:include page="/pages/plugins/include_splitpage_bar.jsp"/>
 --%>
@@ -25,7 +25,7 @@
 	} catch (Exception e) {}
 %>
 <div id="searchDiv">
-	<form action="<%=url%>" method="post" class="form-horizontal">
+	<form action="<%=url%>?${parameName}=${parameValue}" method="post" class="form-horizontal">
 		<div class="form-group">
 <%		// 现在columnData变量有内容
 		if (!(columnData == null || "".equals(columnData))) {

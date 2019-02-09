@@ -1,16 +1,20 @@
 package mao.shu.em.service.back.impl;
 
 import mao.shu.em.dao.IDeptDAO;
+import mao.shu.em.dao.IElogDAO;
 import mao.shu.em.dao.IEmpDAO;
 import mao.shu.em.dao.ILevelDAO;
 import mao.shu.em.dao.impl.DeptDAOImpl;
+import mao.shu.em.dao.impl.ElogDAOImpl;
 import mao.shu.em.dao.impl.EmpDAOImpl;
 import mao.shu.em.dao.impl.LevelDAOImpl;
 import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IEmpServiceBack;
 import mao.shu.em.vo.Dept;
+import mao.shu.em.vo.Elog;
 import mao.shu.em.vo.Emp;
 import mao.shu.em.vo.Level;
+import mao.shu.util.DateUtil;
 import mao.shu.util.factory.DAOFactory;
 
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +35,7 @@ public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBa
     }
 
     @Override
-    public boolean add(Emp vo) throws Exception {
+    public boolean add(Emp vo, Elog elog) throws Exception {
         //判断操作用户的权限是否具备添加用户的权限
         if(super.auth(vo.getMid(),"emp:add")){
             IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
@@ -47,14 +51,44 @@ public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBa
                     //执行添加雇员操作
                     IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
                     if(empDAO.doCreate(vo)){
-
+                        Integer empno = empDAO.getLastId();
                         //如果添加雇员成功,则将对应部门的人数加1
-                        return deptDAO.updateCurrnum(vo.getDeptno(),1);
+                        if( deptDAO.updateCurrnum(vo.getDeptno(),1)){
+                            elog.setEmpno(empno);
+                            elog.setDeptno(vo.getDeptno());
+                            elog.setMid(vo.getMid());
+                            elog.setLid(vo.getLid());
+                            elog.setJob(vo.getJob());
+                            elog.setSal(vo.getSal());
+                            elog.setComm(vo.getComm());
+                            elog.setSflag(0);//0表示刚入职,1表示涨工资,2表示减工资
+                            elog.setFalg(1);
+                            elog.setNote("["+ DateUtil.getFormatDateTime() +"]"+elog.getNote());
+                            IElogDAO elogDAO = DAOFactory.getInstance(ElogDAOImpl.class);
+                            return elogDAO.doCreate(elog);
+                        }
                     }
                 }
             }
 
         }
         return false;
+    }
+
+    @Override
+    public Map<String, Object> listByFlag(String mid,Integer flag, Integer currentPage, Integer lineSize, String column, String keyword) throws Exception {
+        if(super.auth(mid,"emp:list")) {
+            IEmpDAO empdao = DAOFactory.getInstance(EmpDAOImpl.class);
+            Map<String,Object> map = new HashMap<String,Object>();
+            if (column == null || keyword == null || "".equals(column) || "".equals(keyword)) {
+                map.put("allEmps",empdao.splitAllByFlag(flag,currentPage,lineSize));
+                map.put("allCount",empdao.getAllCountByFlag(flag));
+            } else {
+                map.put("allEmps",empdao.splitAllByFlag(flag,currentPage,lineSize,column,keyword));
+                map.put("allCount",empdao.getAllCountByFlag(flag,column,keyword));
+            }
+            return map;
+        }
+        return null;
     }
 }

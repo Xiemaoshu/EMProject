@@ -41,12 +41,33 @@ $(function() {
 			$("#" + id).empty() ;	// 先清除之前的所有内容
 			$("#" + id).append("<span class='text-success glyphicon glyphicon-ok'></span>") ; 
 		}  ,
+		messages : {
+			"emp.deptno" : "该部门人数已满,无法在添加雇员",
+			"emp.sal" : "设置的工资和工资等级范围不匹配"
+		},
 		rules : {	// 针对于每一个表单实现的验证控制处理
 			"emp.name" : {
 				required : true 
 			} ,
 			"emp.deptno" : {
-				required : true 
+				required : true,
+				remote : {
+					url : "pages/back/emp/EmpServletBack/checkDept",
+					type : "post",
+					dataType : "text",
+					data : {
+						deptno : function(){
+							return $("#emp\\.deptno").val();
+						},
+						currDeptno : function(){
+							return $("#currdeptno").val();
+						}
+					},
+					dataFilter : function(data,type){
+						return data.trim()=="true";
+					}
+
+				}
 			} ,
 			"emp.lid" : {
 				required : true 
@@ -56,26 +77,30 @@ $(function() {
 			} ,
 			"emp.sal" : {
 				required : true ,
-				number : true 
-				/*remote : {	// 需要进行远程交互验证
-					url : "CodeServlet" ,
+				number : true,
+				remote : {	// 需要进行远程交互验证
+					url : "pages/back/emp/EmpServletBack/chekSal" ,
 					type : "post" ,
 					dataType : "text" ,
 					data : {
-						code : function () {
-							return $("#code").val() ; 
+						sal : function () {
+							return $("#emp\\.sal").val() ;
+						},
+						lid : function () {
+							return $("#emp\\.lid").val();
 						}
 					} ,
 					dataFilter : function(data,type) {
+						return data.trim()=="true";
 					}
-				}*/
+				}
 			} , 
-			"emp.photo" : {
-				extension : "jpg,gif"
+			"photo" : {
+				extension : "jpg,gif,png"
 			} , 
-			"emp.comm" : {
+			"comm" : {
 				number : true 
 			}
 		} 
 	}) ;
-})
+});

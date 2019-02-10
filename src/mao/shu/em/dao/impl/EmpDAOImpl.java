@@ -5,6 +5,7 @@ import mao.shu.em.vo.Emp;
 import mao.shu.util.AbstractDAO;
 
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +33,18 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
     @Override
     public boolean doUpdate(Emp vo) throws SQLException {
-        return false;
+        String sql = " UPDATE emp SET deptno=?,lid=?,ename=?,job=?,sal=?,comm=?,photo=? WHERE empno=? ";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setInt(1,vo.getDeptno());
+        super.pstmt.setInt(2,vo.getLid());
+
+       super.pstmt.setString(3,vo.getEname());
+       super.pstmt.setString(4,vo.getJob());
+       super.pstmt.setDouble(5,vo.getSal());
+       super.pstmt.setDouble(6,vo.getComm());
+       super.pstmt.setString(7,vo.getPhoto());
+       super.pstmt.setInt(8,vo.getEmpno());
+        return super.pstmt.executeUpdate() > 0;
     }
 
     @Override
@@ -42,6 +54,24 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
     @Override
     public Emp findById(Integer id) throws SQLException {
+        String sql = "SELECT empno,deptno,mid,lid,job,sal,comm,hiredate,photo,ename FROM emp WHERE empno=?";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setInt(1,id);
+        ResultSet resultSet = super.pstmt.executeQuery();
+        if(resultSet.next()){
+            Emp vo = new Emp();
+            vo.setEmpno(resultSet.getInt(1));
+            vo.setDeptno(resultSet.getInt(2));
+            vo.setMid(resultSet.getString(3));
+            vo.setLid(resultSet.getInt(4));
+            vo.setJob(resultSet.getString(5));
+            vo.setSal(resultSet.getDouble(6));
+            vo.setComm(resultSet.getDouble(7));
+            vo.setHiredate(resultSet.getDate(8));
+            vo.setPhoto(resultSet.getString(9));
+            vo.setEname(resultSet.getString(10));
+            return vo;
+        }
         return null;
     }
 

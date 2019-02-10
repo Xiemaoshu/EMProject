@@ -21,7 +21,7 @@ public class ElogDAOImpl extends AbstractDAO implements IElogDAO {
         super.pstmt.setDouble(6,vo.getSal());
         super.pstmt.setDouble(7,vo.getComm());
         super.pstmt.setInt(8,vo.getSflag());
-        super.pstmt.setInt(9,vo.getFalg());
+        super.pstmt.setInt(9,vo.getSflag());
         super.pstmt.setString(10,vo.getNote());
         return super.pstmt.executeUpdate() > 0;
     }

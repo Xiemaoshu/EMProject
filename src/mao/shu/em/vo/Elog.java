@@ -10,7 +10,7 @@ public class Elog {
     private Double sal;
     private Double comm;
     private Integer sflag;
-    private Integer falg;
+    private Integer flag;
     private String note;
 
     public Integer getElid() {
@@ -85,12 +85,12 @@ public class Elog {
         this.sflag = sflag;
     }
 
-    public Integer getFalg() {
-        return falg;
+    public Integer getFlag() {
+        return flag;
     }
 
-    public void setFalg(Integer falg) {
-        this.falg = falg;
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     public String getNote() {

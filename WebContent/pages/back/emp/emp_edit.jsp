@@ -5,10 +5,10 @@
 <head>
 <base href="<%=basePath%>">
 <%
-	String editEmpUrl = basePath + "pages/back/emp/EmpServlet/edit" ;
+	String editEmpUrl = basePath + "pages/back/emp/EmpServletBack/edit" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="js/pages/back/emp/emp_add.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/pages/back/emp/emp_edit.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -31,21 +31,21 @@
 									<strong><span class="glyphicon glyphicon-user"></span>&nbsp;编辑雇员信息</strong>
 								</div>
 								<div class="panel-body" style="height : 95%;">
-									<form action="<%=editEmpUrl%>" id="myform" method="post" class="form-horizontal">
+									<form action="<%=editEmpUrl%>" id="myform" method="post" class="form-horizontal" enctype="multipart/form-data">
 										<div class="form-group" id="emp.nameDiv">
-											<label class="col-md-2 control-label" for="emp.name">雇员姓名：</label>
+											<label class="col-md-2 control-label" for="emp.ename">雇员姓名：</label>
 											<div class="col-md-5">
-												<input type="text" name="emp.name" id="emp.name" class="form-control input-sm" placeholder="请输入雇员真实姓名">
+												<input type="text" name="emp.ename" id="emp.ename" class="form-control input-sm" placeholder="请输入雇员真实姓名"  value="${emp.ename}">
 											</div>
-											<div class="col-md-4" id="emp.nameMsg">*</div>
+											<div class="col-md-4" id="emp.enameMsg">*</div>
 										</div>
 										<div class="form-group" id="emp.deptnoDiv">
 											<label class="col-md-2 control-label" for="emp.deptno">所在部门：</label>
 											<div class="col-md-5">
 												<select id="emp.deptno" name="emp.deptno" class="form-control">
-													<option value="1">销售部</option>
-													<option value="2">研发部</option>
-													<option value="3">后勤部</option>
+													<c:forEach items="${allDepts}" var="dept">
+													<option value="${dept.deptno}" ${emp.deptno==dept.deptno?"selected":""}>${dept.dname}(空余名额:${dept.maxnum-dept.currnum})</option>
+													</c:forEach>
 												</select>
 											</div> 
 											<div class="col-md-4" id="emp.deptnoMsg">*</div>
@@ -53,7 +53,7 @@
 										<div class="form-group" id="emp.jobDiv">
 											<label class="col-md-2 control-label" for="emp.job">雇员职位：</label>
 											<div class="col-md-5">
-												<input type="text" name="emp.job" id="emp.job" class="form-control input-sm" placeholder="请输入雇员职位">
+												<input type="text" name="emp.job" id="emp.job" class="form-control input-sm" placeholder="请输入雇员职位" value="${emp.job}">
 											</div>
 											<div class="col-md-4" id="emp.jobMsg">*</div>
 										</div>
@@ -61,10 +61,9 @@
 											<label class="col-md-2 control-label" for="emp.lid">员工等级：</label>
 											<div class="col-md-5">
 												<select id="emp.lid" name="emp.lid" class="form-control">
-													<option value="1">实习生</option>
-													<option value="2">普通员工</option>
-													<option value="3">小组组长</option>
-													<option value="4">部门经理</option>
+													<c:forEach items="${allLevels}" var="level">
+													<option value="${level.lid}" ${emp.lid==level.lid?"selected":""}>${level.title}-${level.flag}(工资范围:${level.losal}-${level.hisal})</option>
+													</c:forEach>
 												</select>
 											</div> 
 											<div class="col-md-4" id="emp.lidMsg">*</div>
@@ -72,21 +71,21 @@
 										<div class="form-group" id="emp.salDiv">
 											<label class="col-md-2 control-label" for="emp.sal">基本工资：</label>
 											<div class="col-md-5">
-												<input type="text" name="emp.sal" id="emp.sal" class="form-control input-sm" placeholder="请输入雇员基本工资，工资要与员工等级匹配">
+												<input type="text" name="emp.sal" id="emp.sal" class="form-control input-sm" placeholder="请输入雇员基本工资，工资要与员工等级匹配" value="${emp.sal}">
 											</div>
 											<div class="col-md-4" id="emp.salMsg">*</div>
 										</div>
 										<div class="form-group" id="emp.commDiv">
 											<label class="col-md-2 control-label" for="emp.comm">销售佣金：</label>
 											<div class="col-md-5">
-												<input type="text" name="emp.comm" id="emp.comm" class="form-control input-sm" placeholder="如果为销售人员，设置每月佣金">
+												<input type="text" name="emp.comm" id="emp.comm" class="form-control input-sm" placeholder="如果为销售人员，设置每月佣金" value="${emp.comm}">
 											</div>
 											<div class="col-md-4" id="emp.commMsg"></div>
 										</div>
 										<div class="form-group" id="emp.photoDiv">
 											<label class="col-md-2 control-label" for="emp.comm">员工照片：</label>
 											<div class="col-md-5">
-												<input type="file" name="emp.photo" id="emp.photo" class="form-control input-sm" placeholder="请上传员工照片">
+												<input type="file" name="photo" id="photo" class="form-control input-sm" placeholder="请上传员工照片">
 											</div>
 											<div class="col-md-4" id="emp.photoMsg"></div>
 										</div>
@@ -99,7 +98,9 @@
 										</div>  
 										<div class="form-group"> 
 											<div class="col-md-offset-2 col-md-5">
-												<input type="hidden" name="emp.empno" value="10" class="btn btn btn-primary">
+												<input type="hidden" name="emp.empno" value="${emp.empno}" class="btn btn btn-primary">
+												<input type="hidden" name="emp.photo" value="${emp.photo}">
+												<input type="hidden" id="currdeptno" value="${emp.deptno}">
 												<input type="submit" value="修改" class="btn btn btn-primary">
 												<input type="reset" value="重置" class="btn btn btn-warning">
 											</div>

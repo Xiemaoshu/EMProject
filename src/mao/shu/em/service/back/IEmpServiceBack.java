@@ -14,7 +14,30 @@ public interface IEmpServiceBack {
      * 2. key = allLevels()     value = 所有工资等级的数据,使用ILevelDAO.findAll()方法完成
      * @throws Exception
      */
-    public Map<String,Object> addPre()throws Exception;
+    public Map<String,Object> addPre(String mid)throws Exception;
+
+
+    /**
+     * 该方法用于做雇员编辑操作的准备工作
+     * @param mid 操作雇员的mid
+     * @param empno 修改雇员的雇员编号
+     * @return 返回一个mao集合,该集合中有雇员编辑页面中所需要的数据,返回的结果会有以下几种数值
+     * 1. key= allDepts value=所有的部门集合
+     * 2. key= allLevels value=所有的等级集合
+     * 3. key = emp     value=新修改的雇员信息
+     * @throws Exception
+     */
+    public Map<String,Object> editPre(String mid,Integer empno)throws Exception;
+
+
+    /**
+     * 该方法进行雇员数据修改的操作,修改的同时需要添加一条日志信息
+     * @param editEmp 修改的雇员信息
+     * @param elog 日志信息
+     * @return 修改成功返回true, 失败返回false
+     * @throws Exception
+     */
+    public boolean edit(Emp editEmp,Elog elog)throws Exception;
 
     /**
      * 进行添加一名雇员信息的操作,该操作会进行如下几步<br/>

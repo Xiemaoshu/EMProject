@@ -17,21 +17,116 @@ import mao.shu.em.vo.Level;
 import mao.shu.util.DateUtil;
 import mao.shu.util.factory.DAOFactory;
 
-import javax.servlet.annotation.WebServlet;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBack {
 
     @Override
-    public Map<String, Object> addPre() throws Exception {
-        Map<String,Object> addPre_result = new HashMap<String,Object>();
-        IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
-        ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
-        addPre_result.put("allUnderDepts",deptDAO.findUnders());
-        addPre_result.put("allLevels",levelDAO.findAll());
-        return addPre_result;
+    public Map<String, Object> addPre(String mid) throws Exception {
+        if(super.auth(mid,"emp:add") ){
+            Map<String, Object> addPre_result = new HashMap<String, Object>();
+            IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+            ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
+            addPre_result.put("allUnderDepts", deptDAO.findUnders());
+            addPre_result.put("allLevels", levelDAO.findAll());
+            return addPre_result;
+        }
+        return null;
+
+    }
+    public Map<String,Object> editPre(String mid,Integer empno)throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        if(super.auth(mid,"emp:edit")){
+            IEmpDAO empdao = DAOFactory.getInstance(EmpDAOImpl.class);
+            IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+            ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
+            map.put("allDepts",deptDAO.findAll());
+            map.put("allLevels",levelDAO.findAll());
+            map.put("emp",empdao.findById(empno));
+        }
+        return map;
+    }
+
+    @Override
+    public boolean edit(Emp editEmp, Elog elog) throws Exception {
+        if(super.auth(editEmp.getMid(),"emp:edit")){
+            //empDAO操作对象
+            IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
+            //leveldao操作对象
+            ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
+            //deptDao操作对象
+            IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+
+            //得到雇员修改前的数据
+            Emp oldEmp =  empDAO.findById(editEmp.getEmpno());
+            //判断雇员的工资是否有变化,日志elog中的sflag=1表示工资上涨,sflag=2表示工资下降,sflag=3表示工资没有变化
+            if(editEmp.getSal() > oldEmp.getSal()){
+                elog.setSflag(1);
+            }else if(editEmp.getSal() < oldEmp.getSal()){
+                elog.setSflag(2);
+            }else{
+                elog.setSflag(3);
+            }
+
+            //保存工资修改结果
+            Boolean editSal_Boolean = false;
+            if(!editEmp.getSal().equals(oldEmp.getSal())) {
+                //判断修改的雇员工资是否在对应的等级之中
+                Level editLevel = levelDAO.findById(editEmp.getLid());
+                //如果修改的工资为所在的等级返回中
+                if (editEmp.getSal() >= editLevel.getLosal() && editEmp.getSal() <= editLevel.getHisal()) {
+                    editSal_Boolean = true;
+                } else {
+                    editSal_Boolean = false;
+                }
+                //如果雇员工资没有被修改
+            }else{
+                editSal_Boolean = true;
+            }
+
+            //保存部门修改结果
+            Boolean editDept_Boolean = false;
+            //判断雇员所在部门是否被修改
+            if(!editEmp.getEmpno().equals(oldEmp.getDeptno())){
+                //判断雇员要修改的部门是否有空余人数
+                Dept editDept =  deptDAO.findById(editEmp.getDeptno());
+                if(editDept.getCurrnum() < editDept.getMaxnum()){
+                    //增加新部门的人数
+                    deptDAO.updateCurrnum(editDept.getDeptno(),1);
+                    //减少旧部门的人数
+                    deptDAO.updateCurrnum(oldEmp.getDeptno(),-1);
+                    editDept_Boolean = true;
+
+                }else{//如果没有修改所在部门,则不需要进行任何操作
+                    editDept_Boolean = false;
+                }
+            }else{
+                editDept_Boolean = true;
+            }
+
+            //如果修改的工资和修改的部门都符合条件,那么可以进行雇员的修改
+            if(editSal_Boolean && editDept_Boolean){
+                //修改雇员信息
+                if(empDAO.doUpdate(editEmp)){
+                    //设置日志信息
+                    elog.setEmpno(editEmp.getEmpno());
+                    elog.setDeptno(editEmp.getDeptno());
+                    elog.setMid(editEmp.getMid());
+                    elog.setLid(editEmp.getLid());
+                    elog.setJob(editEmp.getJob());
+                    elog.setSal(editEmp.getSal());
+                    elog.setComm(editEmp.getComm());
+                    elog.setFlag(1);//修改的雇员一定是在职状态
+                    elog.setNote("["+ DateUtil.getFormatDateTime() +"]"+elog.getNote());
+                    //添加日志信息
+                    IElogDAO elogDAO = DAOFactory.getInstance(ElogDAOImpl.class);
+                    return elogDAO.doCreate(elog);
+                }
+            }
+
+        }
+        return false;
     }
 
     @Override
@@ -62,7 +157,7 @@ public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBa
                             elog.setSal(vo.getSal());
                             elog.setComm(vo.getComm());
                             elog.setSflag(0);//0表示刚入职,1表示涨工资,2表示减工资
-                            elog.setFalg(1);
+                            elog.setFlag(1);
                             elog.setNote("["+ DateUtil.getFormatDateTime() +"]"+elog.getNote());
                             IElogDAO elogDAO = DAOFactory.getInstance(ElogDAOImpl.class);
                             return elogDAO.doCreate(elog);
@@ -75,10 +170,14 @@ public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBa
         return false;
     }
 
+
+
     @Override
     public Map<String, Object> listByFlag(String mid,Integer flag, Integer currentPage, Integer lineSize, String column, String keyword) throws Exception {
         if(super.auth(mid,"emp:list")) {
             IEmpDAO empdao = DAOFactory.getInstance(EmpDAOImpl.class);
+            IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+            ILevelDAO levelDAO= DAOFactory.getInstance(LevelDAOImpl.class);
             Map<String,Object> map = new HashMap<String,Object>();
             if (column == null || keyword == null || "".equals(column) || "".equals(keyword)) {
                 map.put("allEmps",empdao.splitAllByFlag(flag,currentPage,lineSize));
@@ -87,6 +186,31 @@ public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBa
                 map.put("allEmps",empdao.splitAllByFlag(flag,currentPage,lineSize,column,keyword));
                 map.put("allCount",empdao.getAllCountByFlag(flag,column,keyword));
             }
+
+            //得出所有部门的信息和工资等级的信息
+            List<Dept> deptsList = deptDAO.findAll();
+            List<Level> levelList = levelDAO.findAll();
+
+            //因为El表达式中无法识别int类型,所以使用Long代替
+            //保存部门编号和部门名称
+            Map<Long,String> deptno_dname = new HashMap<Long,String>();
+            //保存等级编号和等级名称
+            Map<Long,String> lid_title_flag = new HashMap<Long,String>();
+            Iterator<Dept> deptIterator = deptsList.iterator();
+            while(deptIterator.hasNext()){
+                Dept temp = deptIterator.next();
+                deptno_dname.put(temp.getDeptno().longValue(),temp.getDname());
+            }
+
+            Iterator<Level> levelIterator = levelList.iterator();
+            while(levelIterator.hasNext()){
+                Level temp = levelIterator.next();
+                lid_title_flag.put(temp.getLid().longValue(),temp.getTitle()+"-"+temp.getFlag());
+            }
+
+            //将部门和等级信息保存到 map集合中
+            map.put("deptno_dname",deptno_dname);
+            map.put("lid_title_flag",lid_title_flag);
             return map;
         }
         return null;

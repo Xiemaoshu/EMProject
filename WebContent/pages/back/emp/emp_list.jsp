@@ -5,8 +5,9 @@
 <head>
 <base href="<%=basePath%>">
 <%
-	String addEmpUrl = basePath + "pages/back/emp/emp_add.jsp" ;
-	String editEmpUrl = basePath + "pages/back/emp/emp_edit.jsp" ;
+	String addEmpUrl = basePath + "pages/back/emp/EmpServletBack/addPre" ;
+	//雇员修改的链接路径
+	String editEmpUrl = basePath + "pages/back/emp/EmpServletBack/editPre" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
 <script type="text/javascript" src="<%=basePath%>js/pages/back/emp/emp_list.js"></script>
@@ -33,6 +34,7 @@
 								</div>
 								<div class="panel-body" style="height : 95%;">
 									<jsp:include page="/pages/plugins/include_splitpage_search.jsp"/>
+
 									<table class="table table-hover">
 										<tr>
 											<th width="5%" class="text-center"><input type="checkbox" id="selall"></th>
@@ -40,24 +42,25 @@
 											<th width="8%" class="text-center">姓名</th>
 											<th width="15%" class="text-center">级别</th>
 											<th width="15%" class="text-center">职位</th>
-											<th width="10%" class="text-center">部门编号</th>
+											<th width="10%" class="text-center">部门</th>
 											<th width="10%" class="text-center">基本工资</th>
 											<th width="10%" class="text-center">佣金</th>
 											<th width="15%" class="text-center">雇佣日期</th>
 											<th width="10%" class="text-center">操作</th>
 										</tr>
+
 										<c:forEach items="${allEmps}" var="emp">
 										<tr>
 											<td class="text-center"><input type="checkbox" id="empno" name="empno" value="${emp.empno}"></td>
 											<td class="text-center"><img src="<%=basePath%>upload/emp/sm-${emp.photo}" style="height:40px;width:40px" /></td>
 											<td class="text-center">${emp.ename}</td>
-											<td class="text-center">${emp.lid}</td>
+											<td class="text-center">${lid_title_flag[''+emp.lid]}</td>
 											<td class="text-center">${emp.job}</td>
-											<td class="text-center">${emp.deptno}</td>
+											<td class="text-center">${deptno_dname[''+emp.deptno]}</td>
 											<td class="text-center">￥${emp.sal}/月</td>
 											<td class="text-center">￥${emp.comm}/月</td>
 											<td class="text-center">${emp.hiredate}</td>
-											<td class="text-center"><a href="<%=editEmpUrl%>" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;编辑</a></td>
+											<td class="text-center"><a href="<%=editEmpUrl%>?empno=${emp.empno}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;编辑</a></td>
 										</tr>
 										</c:forEach>
 									</table>

@@ -21,6 +21,55 @@ import mao.shu.util.factory.DAOFactory;
 import java.util.*;
 
 public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBack {
+    /**
+     * 批量进行多个雇员的离职处理,将雇员的flag值改为 0,同时添加一个雇员离职的日志信息,和修改离职雇员的所在部门的当前人数
+     * @param mid 操作离职处理的用户id
+     * @param empnos 多个离职的雇员编号集合
+     * @return 成功返回true,否则返回false
+     * @throws Exception
+     */
+    public boolean removeEmp(String mid, Set<Integer> empnos){
+        try {
+            if(super.auth(mid,"emp:remove")){
+                IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
+                if(empDAO.doUpdateByFlag(empnos,0)){
+                    Iterator<Integer> empnosIte = empnos.iterator();
+                    IElogDAO  elogDAO = DAOFactory.getInstance(ElogDAOImpl.class);
+                    IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+                    while(empnosIte.hasNext()){
+                        Integer empno = empnosIte.next();
+                        Emp emp = empDAO.findById(empno);//得到每个雇员信息
+                        Integer deptno = emp.getDeptno();//得到每个雇员所在的部门编号
+                        //保存日志信息
+                        Elog elog = new Elog();
+                        elog.setEmpno(empno);
+                        elog.setNote(DateUtil.getFormatDateTime()+"[雇员离职]");
+                        elog.setDeptno(deptno);
+                        elog.setMid(mid);
+                        elog.setFlag(0);//设为离职处理
+                        elog.setLid(emp.getLid());
+                        elog.setJob(emp.getJob());
+                        elog.setSal(emp.getSal());
+                        elog.setComm(emp.getComm());
+                        //保存日志信息
+                        if(elogDAO.doCreate(elog)){
+                            //将雇员所在的部门当前人数-1
+                            if(!deptDAO.updateCurrnum(deptno,-1)){
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }else{
+
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public Map<String, Object> addPre(String mid) throws Exception {

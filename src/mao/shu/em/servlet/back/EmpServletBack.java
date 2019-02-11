@@ -16,13 +16,44 @@ import mao.shu.util.factory.ServiceFactory;
 import mao.shu.util.split.SplitPageUtils;
 
 import javax.servlet.annotation.WebServlet;
-import java.util.List;
+
+import java.util.HashSet;
+
 import java.util.Map;
+import java.util.Set;
+
 @WebServlet("/pages/back/emp/EmpServletBack/*")
 public class EmpServletBack extends EMServlet {
     Emp emp = new Emp();
     public Emp getEmp(){
         return this.emp;
+    }
+
+    public String remove(){
+
+        try {
+            if(super.auth("emp:remove")){
+                //从请求中获取到离职雇员的编号
+               String ids = super.request.getParameter("ids");
+               String[] temp = ids.split("-");//按照"-"拆分
+               Set<Integer> empnos = new HashSet<Integer>();
+                for (int i = 0; i < temp.length; i++) {
+                    empnos.add(Integer.parseInt(temp[i]));
+                }
+                IEmpServiceBack empServiceBack = ServiceFactory.getInstance(EmpServiceBackImpl.class);
+                 if(empServiceBack.removeEmp(super.getMid(),empnos)){
+                     super.setUrlAndMsg("emp.list.servlet","emp.out.success.msg");
+                 }else{
+                     super.setUrlAndMsg("emp.list.servlet","emp.out.failure.msg");
+                 }
+                return "forward.page";
+            }
+        } catch (Exception e) {
+            super.setErrors("auth","auth.failure.msg");
+            e.printStackTrace();
+        }
+
+        return "error.page";
     }
     public String addPre()throws Exception{
         //判断当前操作用户是否具备有操作雇员的权限
@@ -189,6 +220,14 @@ public class EmpServletBack extends EMServlet {
     }
 
     public String list(){
+        try {
+            if(!super.auth("emp:list")){
+                super.setErrors("auth","auth.failure.msg");
+                return "error.page";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String urlkey = "emp.list.servlet";//保存执行分页servlet的地址
         //判断用户查询的是在职雇员还是离职雇员的标记
         Integer flag = null;
@@ -196,7 +235,7 @@ public class EmpServletBack extends EMServlet {
             flag =  super.getIntParameter("flag");
             //如果没有flag参数,则默认为1
         }catch(Exception e){
-            flag=1;
+            flag = 1;
         }
 
         //进行分页参数的获取
@@ -219,8 +258,16 @@ public class EmpServletBack extends EMServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //显示在职人员
+        if(flag==1) {
+            return "emp.list.page";
+        }else if(flag==0){//显示离职人员
+            return "emp.list.out.page";
+        }
         return "emp.list.page";
     }
+
+
     @Override
     public String getDefaultColumn() {
         return "雇员姓名:ename|雇员职位:job";

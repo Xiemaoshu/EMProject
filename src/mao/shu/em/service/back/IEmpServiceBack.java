@@ -5,6 +5,7 @@ import mao.shu.em.vo.Emp;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface IEmpServiceBack {
     /**
@@ -69,4 +70,6 @@ public interface IEmpServiceBack {
      * @throws Exception
      */
     public Map<String,Object> listByFlag(String mid,Integer flag,Integer currentPage,Integer lineSize,String column,String keyword)throws Exception;
+
+    public boolean removeEmp(String mid, Set<Integer> empnos)throws Exception;
 }

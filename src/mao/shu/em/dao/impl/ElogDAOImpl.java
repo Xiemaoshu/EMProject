@@ -5,6 +5,7 @@ import mao.shu.em.vo.Elog;
 import mao.shu.util.AbstractDAO;
 
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.util.Set;
 
@@ -20,8 +21,12 @@ public class ElogDAOImpl extends AbstractDAO implements IElogDAO {
         super.pstmt.setString(5,vo.getJob());
         super.pstmt.setDouble(6,vo.getSal());
         super.pstmt.setDouble(7,vo.getComm());
-        super.pstmt.setInt(8,vo.getSflag());
-        super.pstmt.setInt(9,vo.getSflag());
+        if (vo.getSflag()==null) {
+            super.pstmt.setInt(8, Types.NULL);
+        }else{
+            super.pstmt.setInt(8, vo.getSflag());
+        }
+        super.pstmt.setInt(9,vo.getFlag());
         super.pstmt.setString(10,vo.getNote());
         return super.pstmt.executeUpdate() > 0;
     }

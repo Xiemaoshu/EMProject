@@ -52,6 +52,11 @@
 							class="fa fa-circle-o"></i> 雇员入职</a></li>
 					<li class="${param.action=='emp:list' ? 'active' : ''}"><a href="pages/back/emp/EmpServletBack/list?flag=1"><i
 							class="fa fa-circle-o"></i> 雇员列表</a></li>
+					<li class="${param.action=='emp:list' ? 'active' : ''}">
+						<a href="pages/back/emp/EmpServletBack/list?flag=0">
+							<i class="fa fa-circle-o"></i> 离职雇员列表
+						</a>
+					</li>
 				</ul>
 			</li>
 			</c:if>

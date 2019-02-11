@@ -19,7 +19,7 @@ function checkboxSelectAll(ele, ckd) {
 function operateChecked(elename,url) {
 	var ids = "" ;
 	$("input[id='"+elename+"']:checked").each(function() {
-		ids += $(this).val() + "|" ;
+		ids += $(this).val() + "-" ;
 	}) ;
 	if (ids == "") {
 		$("#alertDiv").attr("class","alert alert-danger") ;

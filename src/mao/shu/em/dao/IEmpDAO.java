@@ -5,6 +5,7 @@ import mao.shu.util.IDAO;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 public interface IEmpDAO extends IDAO<Integer, Emp> {
     /**
@@ -31,4 +32,13 @@ public interface IEmpDAO extends IDAO<Integer, Emp> {
      */
     public Integer getAllCountByFlag(Integer flag,String cloumn,String keyword)throws SQLException;
     public Integer getAllCountByFlag(Integer flag)throws SQLException;
+
+    /**
+     * 进行多个雇员在职状态的更新操作
+     * @param empnos 雇员的编号集合
+     * @param flag 在职的状态,flag=1 表示在职,flag=2 表示离职
+     * @return 如果所有的雇员状态更新成功返回true,否则返回false
+     * @throws SQLException
+     */
+    public boolean doUpdateByFlag(Set<Integer> empnos,Integer flag)throws SQLException;
 }

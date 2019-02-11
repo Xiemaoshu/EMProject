@@ -22,4 +22,14 @@ public interface IDeptDAO extends IDAO<Integer, Dept> {
      * @throws SQLException
      */
     public boolean updateCurrnum(Integer deptno,Integer updateNum)throws SQLException;
+
+    /**
+     * 根据指定雇员的编号对该雇员所在的部门的当前人数进行更新
+     * @param empno 雇员的编号
+     * @param deptno 更新的部门编号
+     * @param updateNum  更新的数量,该参数允许为负数,如果是负数,则更新为减少部门人数
+     * @return 更新的结果,成功返回true,失败返回false
+     * @throws SQLException
+     */
+    public boolean updateCurrnumByEmpno(Integer empno,Integer deptno,Integer updateNum)throws SQLException;
 }

@@ -37,6 +37,15 @@ public class DeptDAOImpl extends AbstractDAO implements IDeptDAO {
     }
 
     @Override
+    public boolean updateCurrnumByEmpno(Integer empno, Integer deptno, Integer updateNum) throws SQLException {
+        String sql = " UPDATE dept SET currnum=currnum+"+updateNum+" WHERE deptno=(" +
+                " SELECT deptno FROM emp WHERE empno=? AND flag=1) ";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setInt(1,empno);
+        return super.pstmt.executeUpdate() > 0;
+    }
+
+    @Override
     public boolean doCreate(Dept vo) throws SQLException {
         return false;
     }

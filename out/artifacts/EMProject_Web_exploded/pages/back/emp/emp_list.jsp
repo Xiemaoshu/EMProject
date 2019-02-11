@@ -10,7 +10,7 @@
 	String editEmpUrl = basePath + "pages/back/emp/EmpServletBack/editPre" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="<%=basePath%>js/pages/back/emp/emp_list.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/pages/back/emp/emp_list.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -64,8 +64,10 @@
 										</tr>
 										</c:forEach>
 									</table>
+
 									<a href="<%=addEmpUrl%>" id="inBtn" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;雇员入职</a>
 									<button id="outBtn" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;雇员离职</button>
+
 									<jsp:include page="/pages/plugins/include_splitpage_bar.jsp"/>
 									<jsp:include page="/pages/plugins/include_alert.jsp"/>
 								</div> 

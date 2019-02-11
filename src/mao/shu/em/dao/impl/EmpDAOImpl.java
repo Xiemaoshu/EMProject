@@ -9,6 +9,7 @@ import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -182,5 +183,24 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public boolean doUpdateByFlag(Set<Integer> empnos, Integer flag) throws SQLException {
+        String sql = "UPDATE emp set flag=? WHERE empno=?";
+        super.pstmt = super.conn.prepareStatement(sql);
+        Iterator<Integer> idsIte = empnos.iterator();
+        while(idsIte.hasNext()) {
+            super.pstmt.setInt(1, flag);
+            super.pstmt.setInt(2, idsIte.next());
+            super.pstmt.addBatch();
+        }
+        int[] result = super.pstmt.executeBatch();
+        for (int i = 0; i < result.length; i++) {
+            if(result[i]<1){
+                return false;
+            }
+        }
+        return true;
     }
 }

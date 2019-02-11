@@ -41,25 +41,32 @@ $(function() {
 			$("#" + id).empty() ;	// 先清除之前的所有内容
 			$("#" + id).append("<span class='text-success glyphicon glyphicon-ok'></span>") ; 
 		}  ,
+		messages : {
+			"emp.deptno" : "该部门人数已满,无法在添加雇员",
+			"emp.sal" : "设置的工资和工资等级范围不匹配"
+		},
 		rules : {	// 针对于每一个表单实现的验证控制处理
 			"emp.name" : {
 				required : true 
 			} ,
 			"emp.deptno" : {
 				required : true,
-				number : true,
 				remote : {
-					url :  "pages/back/emp/EmpServletBack/checkDept" ,
+					url : "pages/back/emp/EmpServletBack/checkDept",
 					type : "post",
 					dataType : "text",
 					data : {
 						deptno : function(){
 							return $("#emp\\.deptno").val();
+						},
+						currDeptno : function(){
+							return $("#currdeptno").val();
 						}
 					},
 					dataFilter : function(data,type){
-						return data.trim() == "true";
+						return data.trim()=="true";
 					}
+
 				}
 			} ,
 			"emp.lid" : {
@@ -91,9 +98,9 @@ $(function() {
 			"photo" : {
 				extension : "jpg,gif,png"
 			} , 
-			"emp.comm" : {
+			"comm" : {
 				number : true 
 			}
 		} 
 	}) ;
-})
+});

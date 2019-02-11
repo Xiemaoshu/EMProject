@@ -8,6 +8,8 @@
 	String addEmpUrl = basePath + "pages/back/emp/EmpServletBack/addPre" ;
 	//雇员修改的链接路径
 	String editEmpUrl = basePath + "pages/back/emp/EmpServletBack/editPre" ;
+	//雇员详细列表显示路径
+	String showUrl = basePath + "pages/back/emp/EmpServletBack/show";
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
 <script type="text/javascript" src="<%=basePath%>/js/pages/back/emp/emp_list.js"></script>
@@ -53,7 +55,7 @@
 										<tr>
 											<td class="text-center"><input type="checkbox" id="empno" name="empno" value="${emp.empno}"></td>
 											<td class="text-center"><img src="<%=basePath%>upload/emp/sm-${emp.photo}" style="height:40px;width:40px" /></td>
-											<td class="text-center">${emp.ename}</td>
+											<td class="text-center"><a href="<%=showUrl%>?empno=${emp.empno}">${emp.ename}</a></td>
 											<td class="text-center">${lid_title_flag[''+emp.lid]}</td>
 											<td class="text-center">${emp.job}</td>
 											<td class="text-center">${deptno_dname[''+emp.deptno]}</td>

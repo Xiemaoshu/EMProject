@@ -29,6 +29,29 @@ public class EmpServletBack extends EMServlet {
         return this.emp;
     }
 
+    public String show()throws Exception{
+
+            if(super.auth("emp:list")){
+                //得到查询的雇员编号
+                Integer empno = super.getIntParameter("empno");
+                IEmpServiceBack empServiceBack = ServiceFactory.getInstance(EmpServiceBackImpl.class);
+                Map<String, Object> map = empServiceBack.getDetails(super.getMid(), empno);
+                super.setRequestAttribute("emp", map.get("emp"));
+                super.setRequestAttribute("dept", map.get("dept"));
+                super.setRequestAttribute("allElogs", map.get("allElogs"));
+                super.setRequestAttribute("level", map.get("level"));
+                return "emp.show.page";
+            }else{
+                super.setErrors("auth","auth.failure.msg");
+                return "error.page";
+            }
+
+    }
+
+    /**
+     * 进行雇员的离职操作
+     * @return
+     */
     public String remove(){
 
         try {
@@ -184,7 +207,10 @@ public class EmpServletBack extends EMServlet {
      */
     public void checkDept(){
         Integer deptno = super.getIntParameter("deptno");
-        Integer currDeptno = super.getIntParameter("currDeptno");
+        Integer currDeptno = null;
+        try {
+          currDeptno =  super.getIntParameter("currDeptno");
+        }catch(Exception e){}
         //判断当前雇员编号和原雇员编号是否一样
         if(deptno == currDeptno){
             super.printData("true");

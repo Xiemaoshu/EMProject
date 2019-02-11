@@ -4,7 +4,9 @@
 <html>
 <head>
 <base href="<%=basePath%>">
-
+<%
+String showUrl = basePath + "pages/back/emp/EmpServletBack/show";
+%>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -45,7 +47,7 @@
 										<c:forEach items="${allEmps}" var="emp">
 										<tr>
 											<td class="text-center"><img src="<%=basePath%>upload/emp/sm-${emp.photo}" style="height:40px;width:40px" /></td>
-											<td class="text-center">${emp.ename}</td>
+											<td class="text-center"><a href="<%=showUrl%>?empno=${emp.empno}">${emp.ename}</a></td>
 											<td class="text-center">${lid_title_flag[''+emp.lid]}</td>
 											<td class="text-center">${emp.job}</td>
 											<td class="text-center">${deptno_dname[''+emp.deptno]}</td>

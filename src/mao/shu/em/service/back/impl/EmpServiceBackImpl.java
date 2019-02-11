@@ -21,6 +21,26 @@ import mao.shu.util.factory.DAOFactory;
 import java.util.*;
 
 public class EmpServiceBackImpl extends AbstractService implements IEmpServiceBack {
+    @Override
+    public Map<String, Object> getDetails(String mid, Integer empno) throws Exception {
+        Map<String,Object> all = new HashMap<String,Object>();
+        if(super.auth(mid,"emp:list")){
+            IDeptDAO deptdao = DAOFactory.getInstance(DeptDAOImpl.class);
+            ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
+            IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
+            IElogDAO elogDAO = DAOFactory.getInstance(ElogDAOImpl.class);
+            Emp emp = empDAO.findById(empno);
+            Dept dept = deptdao.findById(emp.getDeptno());
+            Level level = levelDAO.findById(emp.getLid());
+            Set<Elog> allElogs = elogDAO.findAllByEmp(empno);
+            all.put("dept",dept);
+            all.put("level",level);
+            all.put("allElogs",allElogs);
+            all.put("emp",emp);
+        }
+        return all;
+    }
+
     /**
      * 批量进行多个雇员的离职处理,将雇员的flag值改为 0,同时添加一个雇员离职的日志信息,和修改离职雇员的所在部门的当前人数
      * @param mid 操作离职处理的用户id

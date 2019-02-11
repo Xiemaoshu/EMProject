@@ -71,5 +71,27 @@ public interface IEmpServiceBack {
      */
     public Map<String,Object> listByFlag(String mid,Integer flag,Integer currentPage,Integer lineSize,String column,String keyword)throws Exception;
 
+    /**
+     * 进行多个雇员的离职处理,雇员离职只是将雇员的flag标识符设置为0.
+     * 每进行一次雇员离职,都需要保存一个日志信息,该日志会保存雇员离职的时间和操作员等等信息
+     * 雇员离职成功之后,还需要将雇员所在的部门人数-1
+     * @param mid
+     * @param empnos
+     * @return
+     * @throws Exception
+     */
     public boolean removeEmp(String mid, Set<Integer> empnos)throws Exception;
+
+    /**
+     * 进行一个雇员的详细信息的取出操作,
+     * @param mid 操作员的mid,需要进行判断该操作员是否有对应"emp:list"权限
+     * @param empno 查看的雇员编号
+     * @return 返回的map集合中包含一下内容
+     * 1. key=emp value=该雇员的基本信息
+     * 2. key=dept value= 该雇员所在的部门的信息
+     * 3. key=level value= 该雇员的工资等级的详细信息
+     * 4. key=allRoles value= 该雇员的所有操作日志信息
+     * @throws Exception
+     */
+    public Map<String,Object> getDetails(String mid,Integer empno)throws Exception;
 }

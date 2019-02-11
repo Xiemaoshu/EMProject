@@ -55,7 +55,7 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
     @Override
     public Emp findById(Integer id) throws SQLException {
-        String sql = "SELECT empno,deptno,mid,lid,job,sal,comm,hiredate,photo,ename FROM emp WHERE empno=?";
+        String sql = "SELECT empno,deptno,mid,lid,job,sal,comm,hiredate,photo,ename,flag FROM emp WHERE empno=?";
         super.pstmt = super.conn.prepareStatement(sql);
         super.pstmt.setInt(1,id);
         ResultSet resultSet = super.pstmt.executeQuery();
@@ -71,6 +71,7 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
             vo.setHiredate(resultSet.getDate(8));
             vo.setPhoto(resultSet.getString(9));
             vo.setEname(resultSet.getString(10));
+            vo.setFlag(resultSet.getInt(11));
             return vo;
         }
         return null;

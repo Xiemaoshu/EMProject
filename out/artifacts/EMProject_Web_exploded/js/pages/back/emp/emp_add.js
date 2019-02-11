@@ -89,7 +89,7 @@ $(function() {
 				}
 			} , 
 			"photo" : {
-				extension : "jpg,gif"
+				extension : "jpg,gif,png"
 			} , 
 			"emp.comm" : {
 				number : true 

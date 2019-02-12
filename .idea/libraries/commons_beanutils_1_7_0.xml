@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="commons-beanutils-1.7.0">
+    <CLASSES>
+      <root url="jar://E:/xmldnProject/lib/commons-beanutils-1.7.0.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/commons-collections-3.2.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/commons-httpclient-3.1.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/commons-lang-2.4.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/ezmorph-1.0.6.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/groovy-all-1.5.7.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/jruby-1.1.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/json-lib-2.2.3-jdk13.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/jstl-impl-1.2.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/junit-3.8.2.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/log4j-1.2.14.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/xmlunit-1.0.jar!/" />
+      <root url="jar://E:/xmldnProject/lib/xom-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

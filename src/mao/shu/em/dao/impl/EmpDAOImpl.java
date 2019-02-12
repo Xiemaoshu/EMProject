@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Date;
 
 public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
@@ -203,5 +204,44 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<Emp> splitAllByDept(Integer deptno, Integer currentPage, Integer linesize) throws SQLException {
+        String sql = "SELECT empno,deptno,mid,lid,ename,job,sal,comm,hiredate,photo,flag FROM emp WHERE deptno=? AND flag=1 LIMIT ?,?";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setInt(1,deptno);
+        super.pstmt.setInt(2,(currentPage-1)*linesize);
+        super.pstmt.setInt(3,linesize);
+        ResultSet resultSet = super.pstmt.executeQuery();
+        List<Emp> allEmps = new ArrayList<Emp>();
+        while(resultSet.next()){
+            Emp emp = new Emp();
+            emp.setEmpno(resultSet.getInt(1));
+            emp.setDeptno(resultSet.getInt(2));
+            emp.setMid(resultSet.getString(3));
+            emp.setLid(resultSet.getInt(4));
+            emp.setEname(resultSet.getString(5));
+            emp.setJob(resultSet.getString(6));
+            emp.setSal(resultSet.getDouble(7));
+            emp.setComm(resultSet.getDouble(8));
+            emp.setHiredate(new Date(resultSet.getDate(9).getTime()));
+            emp.setPhoto(resultSet.getString(10));
+            emp.setFlag(resultSet.getInt(11));
+            allEmps.add(emp);
+        }
+        return allEmps;
+    }
+
+    @Override
+    public Integer getALlCountByDept(Integer deptno) throws SQLException {
+       String sql = "SELECT COUNT(*) FROM emp WHERE deptno=? AND flag=1";
+       super.pstmt = super.conn.prepareStatement(sql);
+       super.pstmt.setInt(1,deptno);
+       ResultSet resultSet = super.pstmt.executeQuery();
+       if(resultSet.next()){
+           return resultSet.getInt(1);
+       }
+       return null;
     }
 }

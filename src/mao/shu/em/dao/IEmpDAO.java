@@ -41,4 +41,22 @@ public interface IEmpDAO extends IDAO<Integer, Emp> {
      * @throws SQLException
      */
     public boolean doUpdateByFlag(Set<Integer> empnos,Integer flag)throws SQLException;
+
+    /**
+     * 根据部门编号进行雇员分页显示
+     * @param deptno 部门编号
+     * @param currentPage 当前所在页数
+     * @param linesize 每页显示个数
+     * @return 返回一个雇员信息集合
+     * @throws SQLException
+     */
+    public List<Emp> splitAllByDept(Integer deptno,Integer currentPage,Integer linesize)throws SQLException;
+
+    /**
+     * 根据部门编号,统计相同部门的雇员人数
+     * @param deptno
+     * @return
+     * @throws SQLException
+     */
+    public Integer getALlCountByDept(Integer deptno)throws SQLException;
 }

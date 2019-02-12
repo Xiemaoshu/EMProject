@@ -33,5 +33,6 @@
     <orderEntry type="library" name="mysql-connector-java-5.0.4" level="project" />
     <orderEntry type="library" name="smartupload" level="project" />
     <orderEntry type="library" name="annotations-api" level="project" />
+    <orderEntry type="library" name="commons-beanutils-1.7.0" level="project" />
   </component>
 </module>

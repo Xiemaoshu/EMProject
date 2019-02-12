@@ -1,13 +1,17 @@
 package mao.shu.em.service.back.impl;
 
 import mao.shu.em.dao.IDeptDAO;
+import mao.shu.em.dao.IEmpDAO;
 import mao.shu.em.dao.impl.DeptDAOImpl;
+import mao.shu.em.dao.impl.EmpDAOImpl;
 import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IDeptServiceBack;
 import mao.shu.em.vo.Dept;
 import mao.shu.util.factory.DAOFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class DeptServiceBackImpl extends AbstractService implements IDeptServiceBack {
@@ -43,5 +47,17 @@ public class DeptServiceBackImpl extends AbstractService implements IDeptService
         }
         return false;
 
+    }
+
+    @Override
+    public Map<String, Object> listEmpByDept(String mid, Integer deptno, Integer currentPage, Integer lineSize) throws Exception {
+        if(super.auth(mid,"dept:list")){
+            Map<String,Object> resultMap = new HashMap<String,Object>();
+            IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
+            resultMap.put("allEmps",empDAO.splitAllByDept(deptno,currentPage,lineSize));
+            resultMap.put("allRecorders",empDAO.getALlCountByDept(deptno));
+            return resultMap;
+        }
+        return null;
     }
 }

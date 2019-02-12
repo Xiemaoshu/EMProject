@@ -11,6 +11,7 @@
           <element id="library" level="project" name="kaptcha-2.3.2" />
           <element id="library" level="project" name="mysql-connector-java-5.0.4" />
           <element id="library" level="project" name="smartupload" />
+          <element id="library" level="project" name="commons-beanutils-1.7.0" />
         </element>
       </element>
     </root>

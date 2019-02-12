@@ -3,6 +3,7 @@ package mao.shu.em.service.back;
 import mao.shu.em.vo.Dept;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface IDeptServiceBack {
@@ -31,4 +32,23 @@ public interface IDeptServiceBack {
      */
 
     public boolean editMaxnum(String mid,Dept dept)throws Exception;
+
+    /**
+     * 对部门中的雇员进行分页显示
+     * @param mid 操作员的id 用于进行权限判断
+     * @param deptno 部门编号
+     * @param currentPage 要查询的当前所在页数
+     * @param lineSize 每个页面显示的数据个数
+     * @return 查询出的结果有两个内容
+     * <ol>
+     *  <PRE>
+     *       <code>key = allEmps  value = 查询出的雇员数据</code>
+     *  </PRE>
+     *  <PRE>
+     *      <code>key = allRecorders value = 查询出所有雇员数量</code>
+     * </PRE>
+     * </ol>
+     * @throws Exception
+     */
+    public Map<String,Object> listEmpByDept(String mid,Integer deptno,Integer currentPage,Integer lineSize)throws Exception;
 }

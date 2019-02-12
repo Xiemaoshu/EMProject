@@ -86,52 +86,9 @@
 										<td style="width:15%;" class="text-center"><strong>雇佣日期</strong></td>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td class="text-center"><img src="upload/emp/nophoto.png" style="width:30px;"></td> 
-										<td class="text-center">张三</td>
-										<td class="text-center">工程师</td>
-										<td class="text-center">实习生（T1）</td>
-										<td class="text-center">￥1700/月</td>
-										<td class="text-center">￥0/月</td>
-										<td class="text-center">2019-10-10</td>
-									</tr>
-									<tr>
-										<td class="text-center"><img src="upload/emp/nophoto.png" style="width:30px;"></td> 
-										<td class="text-center">张三</td>
-										<td class="text-center">工程师</td>
-										<td class="text-center">实习生（T1）</td>
-										<td class="text-center">￥1700/月</td>
-										<td class="text-center">￥0/月</td>
-										<td class="text-center">2019-10-10</td>
-									</tr>
-									<tr>
-										<td class="text-center"><img src="upload/emp/nophoto.png" style="width:30px;"></td> 
-										<td class="text-center">张三</td>
-										<td class="text-center">工程师</td>
-										<td class="text-center">实习生（T1）</td>
-										<td class="text-center">￥1700/月</td>
-										<td class="text-center">￥0/月</td>
-										<td class="text-center">2019-10-10</td>
-									</tr>
-									<tr>
-										<td class="text-center"><img src="upload/emp/nophoto.png" style="width:30px;"></td> 
-										<td class="text-center">张三</td>
-										<td class="text-center">工程师</td>
-										<td class="text-center">实习生（T1）</td>
-										<td class="text-center">￥1700/月</td>
-										<td class="text-center">￥0/月</td>
-										<td class="text-center">2019-10-10</td>
-									</tr>
-									<tr>
-										<td class="text-center"><img src="upload/emp/nophoto.png" style="width:30px;"></td> 
-										<td class="text-center">张三</td>
-										<td class="text-center">工程师</td>
-										<td class="text-center">实习生（T1）</td>
-										<td class="text-center">￥1700/月</td>
-										<td class="text-center">￥0/月</td>
-										<td class="text-center">2019-10-10</td>
-									</tr>
+								<tbody id="empBody">
+
+
 								</tbody>
 							</table>
 						</div>
@@ -139,8 +96,8 @@
 					<div class="row">
 						<div class="col-md-4 col-md-offset-8">
 							<ul class="pager">
-								<li class="disabled"><span>上一页</span></li>
-								<li><span>下一页</span></li>
+								<li id="previousButLi"><span id="previousBut">上一页</span></li>
+								<li id="nextButLi"><span id="nextBut">下一页</span></li>
 							</ul>
 						</div>
 					</div>

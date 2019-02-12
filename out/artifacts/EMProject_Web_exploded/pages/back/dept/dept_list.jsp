@@ -34,22 +34,16 @@
 											<th width="20%">部门最大人数</th>
 											<th width="20%">部门当前人数</th>
 										</tr>
-										<tr>
-											<td><span id="dname-1">财务部</span></td>
-											<td>
-												<input type="text" class="input-sm" name="maxnum-1" id="maxnum-1" value="3" style="width:20%">
-												<button class="btn btn-info" id="editBtn-1"><span class="fa fa-pencil-square"></span>&nbsp;调整人数上限</button>
-											</td>
-											<td><a id="showBtn-1" class="btn btn-warning" title="查看本部门雇员信息">1位雇员</a></td>
-										</tr>
-										<tr> 
-											<td><span id="dname-2">销售部</span></td>
-											<td>
-												<input type="text" class="input-sm" name="maxnum-2" id="maxnum-2" value="10" style="width:20%">
-												<button class="btn btn-info" id="editBtn-2"><span class="fa fa-pencil-square"></span>&nbsp;调整人数上限</button>
-											</td>
-											<td><a id="showBtn-2" class="btn btn-warning">2位雇员</a></td>
-										</tr>
+										<c:forEach items="${allDepts}" var="dept">
+											<tr>
+												<td><span id="dname-${dept.deptno}">${dept.dname}</span></td>
+												<td>
+													<input type="text" class="input-sm" name="maxnum-${dept.deptno}" id="maxnum-${dept.deptno}" value="${dept.maxnum}" style="width:20%">
+													<button class="btn btn-info" id="editBtn-${dept.deptno}"><span class="fa fa-pencil-square"></span>&nbsp;调整人数上限</button>
+												</td>
+												<td><a id="showBtn-${dept.deptno}" class="btn btn-warning" title="查看本部门雇员信息">${dept.currnum}位雇员</a></td>
+											</tr>
+										</c:forEach>
 									</table>
 									<jsp:include page="/pages/plugins/include_alert.jsp"/>
 								</div> 

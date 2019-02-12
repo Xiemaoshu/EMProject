@@ -32,4 +32,13 @@ public interface IDeptDAO extends IDAO<Integer, Dept> {
      * @throws SQLException
      */
     public boolean updateCurrnumByEmpno(Integer empno,Integer deptno,Integer updateNum)throws SQLException;
+
+    /**
+     *  进行制定部门的最大人数调整,部门最大人数修改成功返回true,否则返回false
+     * @param deptno 修改的部门编号
+     * @param maxnum 调整的部门最大人数
+     * @return
+     * @throws SQLException
+     */
+    public boolean doUpdateMaxnum(Integer deptno,Integer maxnum)throws SQLException;
 }

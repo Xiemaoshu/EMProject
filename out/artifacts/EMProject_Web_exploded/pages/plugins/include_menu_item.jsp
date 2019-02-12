@@ -38,7 +38,7 @@
 				</a>
 				<ul class="treeview-menu">
 					<li class="${param.action=='dept:list' ? 'active' : ''}">
-						<a href="pages/back/dept/dept_list.jsp"><i class="fa fa-circle-o"></i> 部门列表</a>
+						<a href="pages/back/dept/DeptServlet/list"><i class="fa fa-circle-o"></i> 部门列表</a>
 					</li>
 				</ul>
 			</li>

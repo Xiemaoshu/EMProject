@@ -26,4 +26,22 @@ public class DeptServiceBackImpl extends AbstractService implements IDeptService
         }
         return null;
     }
+
+    @Override
+    public boolean editMaxnum(String mid, Dept dept) throws Exception {
+        if(super.auth(mid,"dept:edit")){
+            IDeptDAO deptDAO = DAOFactory.getInstance(DeptDAOImpl.class);
+            //查询处原部门信息
+            Dept oldDept = deptDAO.findById(dept.getDeptno());
+            //判断要修改的最大人数是否小于当前部门人数
+            //如果修改的部门最大人数等于当前部门人数也是也可以通过的
+            if(dept.getMaxnum() >= oldDept.getCurrnum()){
+                return deptDAO.doUpdateMaxnum(dept.getDeptno(),dept.getMaxnum());
+            }else{
+                return false;
+            }
+        }
+        return false;
+
+    }
 }

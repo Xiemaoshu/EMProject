@@ -21,4 +21,14 @@ public interface IDeptServiceBack {
      * @throws Exception
      */
     public List<Dept> getALl(String mid)throws Exception;
+
+    /**
+     * 修改制定部门的最大部门人数
+     * @param mid 操作员的id,主要用于判断权限
+     * @param dept 修改的部门信息,其中包含被修改的部门编号,和要调整的最大部门人数
+     * @return
+     * @throws Exception
+     */
+
+    public boolean editMaxnum(String mid,Dept dept)throws Exception;
 }

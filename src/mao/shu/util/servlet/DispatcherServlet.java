@@ -340,6 +340,10 @@ public abstract class DispatcherServlet extends HttpServlet {
 		this.request.setAttribute("parameValue",value);
 	}
 
+	/**
+	 * 该方法进行对页面打印数据,主要提供给ajax操作处理完之后的数据打印
+	 * @param value
+	 */
 	public void printData(Object value){
 		try {
 			this.response.getWriter().print(value);

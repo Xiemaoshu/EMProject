@@ -46,6 +46,15 @@ public class DeptDAOImpl extends AbstractDAO implements IDeptDAO {
     }
 
     @Override
+    public boolean doUpdateMaxnum(Integer deptno, Integer maxnum) throws SQLException {
+        String sql = "UPDATE dept SET maxnum=? WHERE deptno=?";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setInt(1,maxnum);
+        super.pstmt.setInt(2,deptno);
+        return super.pstmt.executeUpdate() > 0;
+    }
+
+    @Override
     public boolean doCreate(Dept vo) throws SQLException {
         return false;
     }

@@ -4,7 +4,8 @@ import mao.shu.em.dao.IActionDAO;
 import mao.shu.em.dao.IMemberDAO;
 import mao.shu.em.dao.IRoleDAO;
 import mao.shu.em.dao.impl.ActionDAOImpl;
-import mao.shu.em.dao.impl.MemberDAO;
+
+import mao.shu.em.dao.impl.MemberDAOImpl;
 import mao.shu.em.dao.impl.RoleDAOImpl;
 import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IMemberServiceBack;
@@ -19,7 +20,7 @@ public class MemberServiceBackImpl extends AbstractService implements IMemberSer
     @Override
     public Map<String, Object> login(Member vo) throws Exception {
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        IMemberDAO memberDAO = DAOFactory.getInstance(MemberDAO.class);
+        IMemberDAO memberDAO = DAOFactory.getInstance(MemberDAOImpl.class);
         Member ckVO = memberDAO.findById(vo.getMid());
         if(ckVO!= null) {
             if (ckVO.getPassword().equals(vo.getPassword())) {
@@ -38,5 +39,17 @@ public class MemberServiceBackImpl extends AbstractService implements IMemberSer
             resultMap.put("flag", false);
         }
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> list(String mid) throws Exception {
+        if(super.auth(mid,"member:list")){
+            IMemberDAO memberDAO = DAOFactory.getInstance(MemberDAOImpl.class);
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("allMembers",memberDAO.findAll());
+            return map;
+        }
+        return null;
+
     }
 }

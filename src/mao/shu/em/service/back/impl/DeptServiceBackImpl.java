@@ -2,8 +2,10 @@ package mao.shu.em.service.back.impl;
 
 import mao.shu.em.dao.IDeptDAO;
 import mao.shu.em.dao.IEmpDAO;
+import mao.shu.em.dao.ILevelDAO;
 import mao.shu.em.dao.impl.DeptDAOImpl;
 import mao.shu.em.dao.impl.EmpDAOImpl;
+import mao.shu.em.dao.impl.LevelDAOImpl;
 import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IDeptServiceBack;
 import mao.shu.em.vo.Dept;
@@ -54,8 +56,10 @@ public class DeptServiceBackImpl extends AbstractService implements IDeptService
         if(super.auth(mid,"dept:list")){
             Map<String,Object> resultMap = new HashMap<String,Object>();
             IEmpDAO empDAO = DAOFactory.getInstance(EmpDAOImpl.class);
+            ILevelDAO levelDAO = DAOFactory.getInstance(LevelDAOImpl.class);
             resultMap.put("allEmps",empDAO.splitAllByDept(deptno,currentPage,lineSize));
             resultMap.put("allRecorders",empDAO.getALlCountByDept(deptno));
+            resultMap.put("allLevels",levelDAO.findAll());
             return resultMap;
         }
         return null;

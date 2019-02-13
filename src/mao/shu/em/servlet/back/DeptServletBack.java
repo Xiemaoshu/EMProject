@@ -10,6 +10,7 @@ import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 import javax.servlet.annotation.WebServlet;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ public class DeptServletBack extends EMServlet {
             Map<String,Object> map = deptServiceBack.listEmpByDept(super.getMid(),deptno,currentPage,lineSize) ;
             jsonObject.put("allEmps",map.get("allEmps"));
             jsonObject.put("allRecorders",map.get("allRecorders"));
+            jsonObject.put("allLevels",map.get("allLevels"));
         }else{
             jsonObject.put("flag",false);
         }

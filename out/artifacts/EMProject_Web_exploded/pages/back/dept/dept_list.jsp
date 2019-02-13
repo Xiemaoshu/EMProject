@@ -79,8 +79,9 @@
 									<tr>
 										<td style="width:10%;" class="text-center"><strong>照片</strong></td> 
 										<td style="width:10%;" class="text-center"><strong>姓名</strong></td> 
-										<td style="width:20%;" class="text-center"><strong>职位</strong></td> 
-										<td style="width:15%;" class="text-center"><strong>级别</strong></td> 
+										<td style="width:10%;" class="text-center"><strong>职位</strong></td>
+										<td style="width:10%;" class="text-center"><strong>在职状态</strong></td>
+										<td style="width:15%;" class="text-center"><strong>级别</strong></td>
 										<td style="width:15%;" class="text-center"><strong>工资</strong></td>
 										<td style="width:15%;" class="text-center"><strong>佣金</strong></td>
 										<td style="width:15%;" class="text-center"><strong>雇佣日期</strong></td>

@@ -208,7 +208,7 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
     @Override
     public List<Emp> splitAllByDept(Integer deptno, Integer currentPage, Integer linesize) throws SQLException {
-        String sql = "SELECT empno,deptno,mid,lid,ename,job,sal,comm,hiredate,photo,flag FROM emp WHERE deptno=? AND flag=1 LIMIT ?,?";
+        String sql = "SELECT empno,deptno,mid,lid,ename,job,sal,comm,hiredate,photo,flag FROM emp WHERE deptno=? LIMIT ?,?";
         super.pstmt = super.conn.prepareStatement(sql);
         super.pstmt.setInt(1,deptno);
         super.pstmt.setInt(2,(currentPage-1)*linesize);
@@ -235,7 +235,7 @@ public class EmpDAOImpl extends AbstractDAO implements IEmpDAO {
 
     @Override
     public Integer getALlCountByDept(Integer deptno) throws SQLException {
-       String sql = "SELECT COUNT(*) FROM emp WHERE deptno=? AND flag=1";
+       String sql = "SELECT COUNT(*) FROM emp WHERE deptno=?";
        super.pstmt = super.conn.prepareStatement(sql);
        super.pstmt.setInt(1,deptno);
        ResultSet resultSet = super.pstmt.executeQuery();

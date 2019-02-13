@@ -6,10 +6,11 @@ import mao.shu.util.AbstractDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MemberDAO extends AbstractDAO implements IMemberDAO {
+public class MemberDAOImpl extends AbstractDAO implements IMemberDAO {
     @Override
     public boolean doCreate(Member vo) throws SQLException {
         return false;
@@ -44,7 +45,18 @@ public class MemberDAO extends AbstractDAO implements IMemberDAO {
 
     @Override
     public List<Member> findAll() throws SQLException {
-        return null;
+       String sql = "SELECT mid,name,sflag FROM member ";
+       super.pstmt = super.conn.prepareStatement(sql);
+       ResultSet resultSet = super.pstmt.executeQuery();
+       List<Member> list = new ArrayList<Member>();
+       while(resultSet.next()){
+           Member vo = new Member();
+           vo.setMid(resultSet.getString(1));
+           vo.setName(resultSet.getString(2));
+           vo.setSflag(resultSet.getInt(3));
+           list.add(vo);
+       }
+       return list;
     }
 
     @Override

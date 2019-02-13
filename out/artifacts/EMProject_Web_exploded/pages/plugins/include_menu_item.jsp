@@ -24,9 +24,9 @@
 					class="fa fa-angle-left pull-right"></i>
 				</a>
 				<ul class="treeview-menu"> 
-					<li class="${param.action=='member:add' ? 'active' : ''}"><a href="pages/back/member/member_add.jsp"><i class="fa fa-circle-o"></i>
+					<li class="${param.action=='member:add' ? 'active' : ''}"><a href="pages/back/member/MemberServletBack/add"><i class="fa fa-circle-o"></i>
 							增加管理员</a></li>
-					<li class="${param.action=='member:list' ? 'active' : ''}"><a href="pages/back/member/member_list.jsp"><i class="fa fa-circle-o"></i>
+					<li class="${param.action=='member:list' ? 'active' : ''}"><a href="pages/back/member/MemberServletBack/list"><i class="fa fa-circle-o"></i>
 							管理员列表</a></li>
 				</ul>
 			</li>

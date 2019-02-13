@@ -126,12 +126,13 @@ INSERT INTO role_action(rid,actid) VALUES (3,9) ;
 -- salt : mldnjava,Base64 : “bWxkbmphdmE=”，格式：密码password({salt})
 -- admin / hello
 INSERT INTO member(mid,password,name,sflag) VALUES ('admin','3E585791E7C446317AF238314843DDEB','管理员',1) ;
+-- xiemaoshu / 123
+INSERT INTO member(mid,password,name,sflag) VALUES ('xiemaoshu','D0AEA5478F9FA4799DD2AE2B9F99A15E','谢茂树',1) ;
 -- mermard / hello
 INSERT INTO member(mid,password,name,sflag) VALUES ('mermaid','3E585791E7C446317AF238314843DDEB','老李',0) ;
 -- mldn / java
 INSERT INTO member(mid,password,name,sflag) VALUES ('mldn','08FD48BA8B67F026CE01E4DD15BF717A','隔壁老王',0) ;
--- xiemaoshu / 123
-INSERT INTO member(mid,password,name,sflag) VALUES ('xiemaoshu','D0AEA5478F9FA4799DD2AE2B9F99A15E','谢茂树',1) ;
+
 
 -- 5、管理员与角色权限
 INSERT INTO member_role(mid,rid) VALUES ('admin',1) ;

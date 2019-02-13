@@ -20,4 +20,12 @@ public interface IMemberServiceBack {
      * @throws Exception
      */
     public Map<String,Object> login(Member vo)throws Exception;
+
+    /**
+     * 该方法进行所有管理员的列出操作
+     * @param mid 登录用户的id,用于判断权限"member:list"
+     * @return
+     * @throws Exception
+     */
+    public Map<String,Object> list(String mid)throws Exception;
 }

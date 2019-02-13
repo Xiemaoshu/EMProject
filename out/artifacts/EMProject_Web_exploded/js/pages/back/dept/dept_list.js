@@ -3,6 +3,7 @@ var lineSize = 5;//默认每页显示数据个数为5
 var allRecorders = 0; //保存部门雇员总个数
 var pageSize = 0;//保存分页总页数
 $(function(){
+
 	$("[id*=editBtn-]").each(function(){
 		var deptno = this.id.split("-")[1] ;
 		$(this).on("click",function() {
@@ -32,6 +33,7 @@ $(function(){
 			cp = 1;
 			//加载部门的雇员分页数据
 			loadData(deptno);
+
 			$("#empInfo").modal("toggle") ;//显示模态窗口
 			//为上一页和下一页按钮绑定点击事件
 			$("#previousBut").on("click",function(){
@@ -39,6 +41,7 @@ $(function(){
 					//清除按钮样式
 					$("#previousButLi").attr("class","");
 					cp --;
+					loadData(deptno);
 				}else if(cp ==1 ){
 					//禁用上一页按钮
 					$("#previousButLi").attr("class","disabled");
@@ -51,6 +54,7 @@ $(function(){
 				if(cp < pageSize){
 					$("#nextButLi").attr("class","");
 					cp ++;
+					loadData(deptno);
 				}else if(cp == pageSize){
 					$("#nextButLi").attr("class","disabled");
 				}else{
@@ -66,6 +70,7 @@ $(function(){
 		$("#previousBut").unbind("click");
 		$("#nextBut").unbind("click");
 	})
+
 
 });
 
@@ -86,11 +91,26 @@ function loadData(deptno){
 			$("#empBody tr").remove();
 			//进行数据填写
 			for (var i = 0; i < data.allEmps.length; i++) {
+				var jobStatus = "";
+				if(data.allEmps[i].flag==1){
+					jobStatus ="<td class='text-center text-success'>在职</td>";
+				}else{
+					jobStatus ="<td class='text-center text-danger'>离职</td>";
+
+				}
+
+				var levleTitleFlag = "";
+				for (var j = 0; j < data.allLevels.length; j++) {
+					if(data.allLevels[j].lid == data.allEmps[i].lid){
+						levleTitleFlag = data.allLevels[j].title+"-"+data.allLevels[j].flag;
+					}
+				}
 				var empTrObj = "<tr> " +
 					" <td class='text-center'><img src='upload/emp/"+data.allEmps[i].photo+"'style='width:30px;'></td> " +
 					" <td class='text-center'>"+data.allEmps[i].ename+"</td>  " +
 					" <td class='text-center'>"+data.allEmps[i].job+"</td> " +
-					" <td class='text-center'>"+data.allEmps[i].lid+"</td> " +
+					" "+jobStatus+" "+
+					" <td class='text-center text-info'>"+levleTitleFlag+"</td> " +
 					" <td class='text-center'>￥"+data.allEmps[i].sal+"/月</td> " +
 					" <td class='text-center'>￥"+data.allEmps[i].comm+"/月</td> " +
 					" <td class='text-center'>"+new Date(data.allEmps[i].hiredate.time).format("yyyy-MM-dd")+"</td> " +

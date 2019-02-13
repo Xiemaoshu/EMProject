@@ -5,7 +5,7 @@
 <head>
 <base href="<%=basePath%>">
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
-<script type="text/javascript" src="js/pages/back/dept/dept_list.js"></script>
+<script type="text/javascript" src="js/pages/back/member/member_list.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -32,15 +32,15 @@
 										<tr>
 											<th width="60%">登录帐号</th>
 											<th width="20%">姓名</th>
+											<th width="20%">等级</th>
 										</tr>
+										<c:forEach items="${allMembers}" var="member">
 										<tr>
-											<td>admin</td>
-											<td>老张</td>
+											<td>${member.mid}</td>
+											<td>${member.name}</td>
+											<td>${member.sflag==1?"超级管理员":"普通管理员"}</td>
 										</tr>
-										<tr>
-											<td>mermaid</td>
-											<td>老李</td>
-										</tr>
+										</c:forEach>
 									</table>
 									<jsp:include page="/pages/plugins/include_alert.jsp"/>
 								</div> 

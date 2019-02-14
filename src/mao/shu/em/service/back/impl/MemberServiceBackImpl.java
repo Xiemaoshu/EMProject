@@ -10,10 +10,14 @@ import mao.shu.em.dao.impl.RoleDAOImpl;
 import mao.shu.em.service.abs.AbstractService;
 import mao.shu.em.service.back.IMemberServiceBack;
 import mao.shu.em.vo.Member;
+import mao.shu.em.vo.Role;
+import mao.shu.util.EncryptUtil;
 import mao.shu.util.factory.DAOFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MemberServiceBackImpl extends AbstractService implements IMemberServiceBack {
 
@@ -51,5 +55,41 @@ public class MemberServiceBackImpl extends AbstractService implements IMemberSer
         }
         return null;
 
+    }
+
+    @Override
+    public Map<String, Object> addPre(String mid) throws Exception {
+        if (super.admin(mid)){
+            IRoleDAO roleDAO = DAOFactory.getInstance(RoleDAOImpl.class);
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("allRoles",roleDAO.findAll());
+            return map;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean add(String mid, Member vo, Set<Integer> rids) throws Exception {
+       if(super.admin(mid)){
+           IMemberDAO memberDAO = DAOFactory.getInstance(MemberDAOImpl.class);
+           IRoleDAO roleDAO = DAOFactory.getInstance(RoleDAOImpl.class);
+            Member addMember = memberDAO.findById(vo.getMid());
+           if(addMember == null){
+               vo.setSflag(0);//新增加的管理员默认都为普通管理员
+               if(memberDAO.doCreate(vo)){
+                   return roleDAO.doCreateByMember(vo.getMid(),rids);
+               }
+           }
+       }
+       return false;
+    }
+
+    @Override
+    public Member checkMid(String loginMid,String addMid) throws Exception {
+        if(super.admin(loginMid)){
+            IMemberDAO memberDAO = DAOFactory.getInstance(MemberDAOImpl.class);
+            return memberDAO.findById(addMid);
+        }
+        return null;
     }
 }

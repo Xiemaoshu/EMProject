@@ -13,7 +13,14 @@ import java.util.Set;
 public class MemberDAOImpl extends AbstractDAO implements IMemberDAO {
     @Override
     public boolean doCreate(Member vo) throws SQLException {
-        return false;
+        String sql = "INSERT INTO member(mid,password,name,sflag)VALUES(?,?,?,?)";
+        super.pstmt = super.conn.prepareStatement(sql);
+        super.pstmt.setString(1,vo.getMid());
+        super.pstmt.setString(2,vo.getPassword());
+        super.pstmt.setString(3,vo.getName());
+        //新的管理员只能是普通管理员,只有超级管理员才能够将修改普通管理员
+        super.pstmt.setInt(4,vo.getSflag());
+        return super.pstmt.executeUpdate() > 0;
     }
 
     @Override

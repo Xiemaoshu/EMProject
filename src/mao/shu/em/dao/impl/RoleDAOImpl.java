@@ -3,12 +3,11 @@ package mao.shu.em.dao.impl;
 import mao.shu.em.dao.IRoleDAO;
 import mao.shu.em.vo.Role;
 import mao.shu.util.AbstractDAO;
+import org.eclipse.jdt.internal.compiler.ast.SuperReference;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RoleDAOImpl extends AbstractDAO implements IRoleDAO {
     @Override
@@ -24,6 +23,29 @@ public class RoleDAOImpl extends AbstractDAO implements IRoleDAO {
         }
         return rids;
     }
+
+    @Override
+    public boolean doCreateByMember(String mid, Set<Integer> rids) throws SQLException {
+        String sql = "INSERT INTO member_role(mid,rid)VALUES(?,?)";
+        super.pstmt = super.conn.prepareStatement(sql);
+        Iterator<Integer> ridIterator = rids.iterator();
+        while(ridIterator.hasNext()){
+            Integer rid = ridIterator.next();
+            super.pstmt.setString(1,mid);
+            super.pstmt.setInt(2,rid);
+            super.pstmt.addBatch();
+        }
+        int[] resultArray = super.pstmt.executeBatch();
+        for (int i : resultArray) {
+            if (i < 1) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+
 
     @Override
     public boolean doCreate(Role vo) throws SQLException {
@@ -47,7 +69,18 @@ public class RoleDAOImpl extends AbstractDAO implements IRoleDAO {
 
     @Override
     public List<Role> findAll() throws SQLException {
-        return null;
+       String sql = "SELECT rid,title,flag FROM role;";
+        super.pstmt = super.conn.prepareStatement(sql);
+        ResultSet resultSet = super.pstmt.executeQuery();
+        List<Role> list = new ArrayList<Role>();
+        while(resultSet.next()){
+            Role role = new Role();
+            role.setRid(resultSet.getInt(1));
+            role.setTitle(resultSet.getString(2));
+            role.setFlag(resultSet.getString(3));
+            list.add(role);
+        }
+        return list;
     }
 
     @Override

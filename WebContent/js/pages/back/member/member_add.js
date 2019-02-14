@@ -41,22 +41,25 @@ $(function() {
 			$("#" + id).empty() ;	// 先清除之前的所有内容
 			$("#" + id).append("<span class='text-success glyphicon glyphicon-ok'></span>") ; 
 		}  ,
+		messages : {
+			"member.mid" : "该用户名已存在,无法使用,请更换"
+		},
 		rules : {	// 针对于每一个表单实现的验证控制处理
 			"member.mid" : {
 				required : true ,
-				number : true 
-				/*remote : {	// 需要进行远程交互验证
-					url : "CodeServlet" ,
+				remote : {	// 需要进行远程交互验证
+					url : "pages/back/member/MemberServletBack/checkMid" ,
 					type : "post" ,
 					dataType : "text" ,
 					data : {
-						code : function () {
-							return $("#code").val() ; 
+						mid : function () {
+							return $("#member\\.mid").val() ;
 						}
 					} ,
 					dataFilter : function(data,type) {
+						return data.trim()=="true";
 					}
-				}*/
+				}
 			} , 
 			"member.name" : {
 				required : true 
@@ -69,4 +72,4 @@ $(function() {
 			} 
 		} 
 	}) ;
-})
+});

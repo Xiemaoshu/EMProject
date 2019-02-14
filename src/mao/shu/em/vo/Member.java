@@ -6,7 +6,7 @@ public class Member implements Serializable {
     private String mid;
     private String password;
     private String name;
-    private int sflag;
+    private Integer sflag;
 
     public String getMid() {
         return mid;
@@ -32,11 +32,11 @@ public class Member implements Serializable {
         this.name = name;
     }
 
-    public int getSflag() {
+    public Integer getSflag() {
         return sflag;
     }
 
-    public void setSflag(int sflag) {
+    public void setSflag(Integer sflag) {
         this.sflag = sflag;
     }
 }

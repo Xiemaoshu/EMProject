@@ -78,12 +78,14 @@ public class BeanValueUtil {
 	 * @return
 	 */
 	private Object convertValue(String type) {
-		if ("int".equals(type) || "Integer".equals(type)) {
-			return Integer.parseInt(this.attributeValue) ;	// 将内容变为整数
-		} 
-		if ("double".equalsIgnoreCase(type)) {
-			return Double.parseDouble(this.attributeValue) ;
-		}
+		try {
+			if ("int".equals(type) || "Integer".equals(type)) {
+				return Integer.parseInt(this.attributeValue);    // 将内容变为整数
+			}
+			if ("double".equalsIgnoreCase(type)) {
+				return Double.parseDouble(this.attributeValue);
+			}
+		}catch(Exception e){}
 		if ("date".equalsIgnoreCase(type)) {
 			try {
 				if (this.attributeValue.matches("\\d{4}-\\d{2}-\\d{2}")) {

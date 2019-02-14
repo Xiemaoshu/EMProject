@@ -5,7 +5,7 @@
 <head>
 <base href="<%=basePath%>">
 <%
-	String addMemberUrl = basePath + "pages/back/member/MemberServlet/add" ;
+	String addMemberUrl = basePath + "pages/back/member/MemberServletBack/add" ;
 %>
 <jsp:include page="/pages/plugins/include_javascript_head.jsp" />
 <script type="text/javascript" src="js/pages/back/member/member_add.js"></script>
@@ -35,36 +35,32 @@
 										<div class="form-group" id="member.midDiv">
 											<label class="col-md-2 control-label" for="member.mid">登录帐号：</label>
 											<div class="col-md-5">
-												<input type="text" name="member.mid" id="member.mid" class="form-control input-sm" placeholder="请输入雇员真实姓名">
+												<input type="text" name="member.mid" id="member.mid" class="form-control input-sm" placeholder="请输入管理员登录账号">
 											</div>
 											<div class="col-md-4" id="member.midMsg">*</div>
 										</div>
 										<div class="form-group" id="member.nameDiv">
 											<label class="col-md-2 control-label" for="member.name">真实姓名：</label>
 											<div class="col-md-5">
-												<input type="text" name="member.name" id="member.name" class="form-control input-sm" placeholder="请输入雇员真实姓名">
+												<input type="text" name="member.name" id="member.name" class="form-control input-sm" placeholder="请输入管理员真实姓名">
 											</div>
 											<div class="col-md-4" id="member.nameMsg">*</div>
 										</div>
 										<div class="form-group" id="member.passwordDiv">
 											<label class="col-md-2 control-label" for="member.password">登录密码：</label>
 											<div class="col-md-5">
-												<input type="text" name="member.password" id="member.password" class="form-control input-sm" placeholder="请输入雇员真实姓名">
+												<input type="password" name="member.password" id="member.password" class="form-control input-sm" placeholder="请输入管理员的登录密码">
 											</div>
 											<div class="col-md-4" id="member.passwordMsg">*</div>
 										</div>
 										<div class="form-group" id="ridDiv">
 											<label class="col-md-2 control-label" for="rid">用户角色：</label>
 											<div class="col-md-5">
+                                                <c:forEach items="${addPre_allRoles}" var="role">
 												<div class="checkbox-inline">
-													<input type="checkbox" name="rid" id="rid" value="1">管理员
+													<input type="checkbox" name="rid" id="rid" value="${role.rid}">${role.title}
 												</div>
-												<div class="checkbox-inline">
-													<input type="checkbox" name="rid" id="rid" value="2">雇员管理
-												</div>
-												<div class="checkbox-inline">
-													<input type="checkbox" name="rid" id="rid" value="3">部门管理
-												</div>
+                                                </c:forEach>
 											</div> 
 											<div class="col-md-4" id="ridMsg">*</div>
 										</div> 

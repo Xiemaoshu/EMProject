@@ -170,6 +170,9 @@ public class EmpServletBack extends EMServlet {
 
                 //修改操作员的编号
                 this.emp.setMid(super.getMid());
+                if(this.emp.getComm() == null){
+                    this.emp.setComm(0.0);
+                }
                 //保存日志信息
                 Elog elog = new Elog();
                 //在日志中保存雇员简介
